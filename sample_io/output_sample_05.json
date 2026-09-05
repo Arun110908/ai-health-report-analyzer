@@ -1,0 +1,177 @@
+{
+    "success": true,
+    "report": {
+        "overall_health_score": 93,
+        "summary": "Your blood report looks largely within healthy ranges. Out of 14 parameters analyzed, 1 were outside the normal reference range. 1 possible deficiency indicator(s) were flagged. This report is for informational purposes only and does not replace professional medical advice.",
+        "critical_alerts": [],
+        "doctor_consultation_suggested": false,
+        "doctor_consultation_reason": null,
+        "parameters": [
+            {
+                "name": "Hemoglobin",
+                "value": 15.99,
+                "raw_value": "15.99",
+                "unit": "g/dL",
+                "reference_range": "13.0-17.0",
+                "status": "normal"
+            },
+            {
+                "name": "Wbc Count",
+                "value": 7.0,
+                "raw_value": "7.0",
+                "unit": "10^3/uL",
+                "reference_range": "4.0-11.0",
+                "status": "normal"
+            },
+            {
+                "name": "Platelet Count",
+                "value": 325.06,
+                "raw_value": "325.06",
+                "unit": "10^3/uL",
+                "reference_range": "150-450",
+                "status": "normal"
+            },
+            {
+                "name": "Fasting Blood Glucose",
+                "value": 80.5,
+                "raw_value": "80.5",
+                "unit": "mg/dL",
+                "reference_range": "70-99",
+                "status": "normal"
+            },
+            {
+                "name": "Total Cholesterol",
+                "value": 131.07,
+                "raw_value": "131.07",
+                "unit": "mg/dL",
+                "reference_range": "120-200",
+                "status": "normal"
+            },
+            {
+                "name": "Ldl Cholesterol",
+                "value": 74.68,
+                "raw_value": "74.68",
+                "unit": "mg/dL",
+                "reference_range": "50-100",
+                "status": "normal"
+            },
+            {
+                "name": "Hdl Cholesterol",
+                "value": 55.12,
+                "raw_value": "55.12",
+                "unit": "mg/dL",
+                "reference_range": "40-60",
+                "status": "normal"
+            },
+            {
+                "name": "Triglycerides",
+                "value": 136.11,
+                "raw_value": "136.11",
+                "unit": "mg/dL",
+                "reference_range": "50-150",
+                "status": "normal"
+            },
+            {
+                "name": "Tsh",
+                "value": 0.95,
+                "raw_value": "0.95",
+                "unit": "uIU/mL",
+                "reference_range": "0.4-4.0",
+                "status": "normal"
+            },
+            {
+                "name": "Vitamin D",
+                "value": 41.2,
+                "raw_value": "41.2",
+                "unit": "ng/mL",
+                "reference_range": "30-100",
+                "status": "normal"
+            },
+            {
+                "name": "Vitamin B12",
+                "value": 12.0,
+                "raw_value": "12",
+                "unit": null,
+                "reference_range": null,
+                "status": "low"
+            },
+            {
+                "name": "Serum Creatinine",
+                "value": 1.02,
+                "raw_value": "1.02",
+                "unit": "mg/dL",
+                "reference_range": "0.6-1.3",
+                "status": "normal"
+            },
+            {
+                "name": "Sgpt",
+                "value": 25.85,
+                "raw_value": "25.85",
+                "unit": "U/L",
+                "reference_range": "7-56",
+                "status": "normal"
+            },
+            {
+                "name": "Calcium",
+                "value": 9.61,
+                "raw_value": "9.61",
+                "unit": "mg/dL",
+                "reference_range": "8.6-10.3",
+                "status": "normal"
+            }
+        ],
+        "deficiencies": [
+            {
+                "title": "Low Vitamin B12",
+                "parameter": "Vitamin B12",
+                "severity": "moderate",
+                "explanation": "Your Vitamin B12 (12.0 ) is below the healthy reference range, which may indicate a deficiency. Needed for nerve function and red blood cell production."
+            }
+        ],
+        "health_risks": [],
+        "recommendations": {
+            "diet_eat": [
+                "Eggs, dairy, fortified cereals",
+                "Meat/fish if non-vegetarian"
+            ],
+            "diet_avoid": [
+                "Limit ultra-processed foods and excess sugar/salt."
+            ],
+            "exercise": [
+                "150 minutes/week of moderate exercise (walking, cycling, swimming)."
+            ],
+            "hydration": [
+                "Drink at least 2-3 liters of water daily unless advised otherwise."
+            ],
+            "sleep": [
+                "Aim for 7-8 hours of quality sleep each night, with a consistent bedtime."
+            ],
+            "stress_management": [
+                "Practice 10 minutes of deep breathing, meditation, or yoga daily.",
+                "Take regular breaks from screens and prioritize downtime."
+            ],
+            "lifestyle": [
+                "Get a routine annual health check-up.",
+                "Maintain a consistent sleep and wake schedule.",
+                "Include at least 30 minutes of physical activity most days of the week."
+            ]
+        },
+        "parameter_explanations": {
+            "Hemoglobin": "Carries oxygen in your blood. Low levels can mean anemia and cause fatigue.",
+            "Wbc Count": "White blood cells fight infection; high counts can signal infection or inflammation.",
+            "Platelet Count": "Platelets help your blood clot; very low or high counts need medical attention.",
+            "Fasting Blood Glucose": "Blood sugar after fasting; consistently high levels can indicate prediabetes/diabetes.",
+            "Total Cholesterol": "A measure of fats in your blood linked to heart disease risk.",
+            "Ldl Cholesterol": "'Bad' cholesterol \u2014 high levels raise heart disease risk.",
+            "Hdl Cholesterol": "'Good' cholesterol \u2014 higher levels help protect your heart.",
+            "Triglycerides": "A type of fat in blood; high levels are linked to heart disease.",
+            "Tsh": "Signals your thyroid to produce hormones; abnormal levels affect metabolism.",
+            "Vitamin D": "Supports bone health and immunity; low levels are very common.",
+            "Vitamin B12": "Needed for nerve function and red blood cell production.",
+            "Serum Creatinine": "A waste product filtered by kidneys; high levels can signal reduced kidney function.",
+            "Sgpt": "A liver enzyme; elevated levels can indicate liver stress or damage.",
+            "Calcium": "Important for bones, muscles, and nerve function."
+        }
+    },
+    "errors": []
+}

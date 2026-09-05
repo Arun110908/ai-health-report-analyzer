@@ -1,0 +1,192 @@
+{
+    "success": true,
+    "report": {
+        "overall_health_score": 71,
+        "summary": "Your blood report shows a few areas that need attention. Out of 14 parameters analyzed, 3 were outside the normal reference range. 1 possible deficiency indicator(s) were flagged. This report is for informational purposes only and does not replace professional medical advice.",
+        "critical_alerts": [
+            "Wbc Count is critically low (0.15 10^3/uL) \u2014 please consult a doctor promptly."
+        ],
+        "doctor_consultation_suggested": true,
+        "doctor_consultation_reason": "One or more parameters are in the critical range.",
+        "parameters": [
+            {
+                "name": "Hemoglobin",
+                "value": 13.59,
+                "raw_value": "13.59",
+                "unit": "g/dL",
+                "reference_range": "13.0-17.0",
+                "status": "normal"
+            },
+            {
+                "name": "Wbc Count",
+                "value": 0.15,
+                "raw_value": "0.15",
+                "unit": "10^3/uL",
+                "reference_range": "4.0-11.0",
+                "status": "critical_low"
+            },
+            {
+                "name": "Platelet Count",
+                "value": 408.21,
+                "raw_value": "408.21",
+                "unit": "10^3/uL",
+                "reference_range": "150-450",
+                "status": "normal"
+            },
+            {
+                "name": "Fasting Blood Glucose",
+                "value": 76.09,
+                "raw_value": "76.09",
+                "unit": "mg/dL",
+                "reference_range": "70-99",
+                "status": "normal"
+            },
+            {
+                "name": "Total Cholesterol",
+                "value": 152.51,
+                "raw_value": "152.51",
+                "unit": "mg/dL",
+                "reference_range": "120-200",
+                "status": "normal"
+            },
+            {
+                "name": "Ldl Cholesterol",
+                "value": 57.73,
+                "raw_value": "57.73",
+                "unit": "mg/dL",
+                "reference_range": "50-100",
+                "status": "normal"
+            },
+            {
+                "name": "Hdl Cholesterol",
+                "value": 57.29,
+                "raw_value": "57.29",
+                "unit": "mg/dL",
+                "reference_range": "40-60",
+                "status": "normal"
+            },
+            {
+                "name": "Triglycerides",
+                "value": 131.08,
+                "raw_value": "131.08",
+                "unit": "mg/dL",
+                "reference_range": "50-150",
+                "status": "normal"
+            },
+            {
+                "name": "Tsh",
+                "value": 0.49,
+                "raw_value": "0.49",
+                "unit": "uIU/mL",
+                "reference_range": "0.4-4.0",
+                "status": "normal"
+            },
+            {
+                "name": "Vitamin D",
+                "value": 53.25,
+                "raw_value": "53.25",
+                "unit": "ng/mL",
+                "reference_range": "30-100",
+                "status": "normal"
+            },
+            {
+                "name": "Vitamin B12",
+                "value": 12.0,
+                "raw_value": "12",
+                "unit": null,
+                "reference_range": null,
+                "status": "low"
+            },
+            {
+                "name": "Serum Creatinine",
+                "value": 1.17,
+                "raw_value": "1.17",
+                "unit": "mg/dL",
+                "reference_range": "0.6-1.3",
+                "status": "normal"
+            },
+            {
+                "name": "Sgpt",
+                "value": 63.55,
+                "raw_value": "63.55",
+                "unit": "U/L",
+                "reference_range": "7-56",
+                "status": "high"
+            },
+            {
+                "name": "Calcium",
+                "value": 10.06,
+                "raw_value": "10.06",
+                "unit": "mg/dL",
+                "reference_range": "8.6-10.3",
+                "status": "normal"
+            }
+        ],
+        "deficiencies": [
+            {
+                "title": "Low Vitamin B12",
+                "parameter": "Vitamin B12",
+                "severity": "moderate",
+                "explanation": "Your Vitamin B12 (12.0 ) is below the healthy reference range, which may indicate a deficiency. Needed for nerve function and red blood cell production."
+            }
+        ],
+        "health_risks": [
+            {
+                "title": "Wbc Count out of range",
+                "parameter": "Wbc Count",
+                "severity": "severe",
+                "explanation": "Your Wbc Count (0.15 10^3/uL) is below the healthy reference range. White blood cells fight infection; high counts can signal infection or inflammation."
+            },
+            {
+                "title": "Sgpt out of range",
+                "parameter": "Sgpt",
+                "severity": "moderate",
+                "explanation": "Your Sgpt (63.55 U/L) is above the healthy reference range. A liver enzyme; elevated levels can indicate liver stress or damage."
+            }
+        ],
+        "recommendations": {
+            "diet_eat": [
+                "Eggs, dairy, fortified cereals",
+                "Meat/fish if non-vegetarian"
+            ],
+            "diet_avoid": [
+                "Limit ultra-processed foods and excess sugar/salt."
+            ],
+            "exercise": [
+                "150 minutes/week of moderate exercise (walking, cycling, swimming)."
+            ],
+            "hydration": [
+                "Drink at least 2-3 liters of water daily unless advised otherwise."
+            ],
+            "sleep": [
+                "Aim for 7-8 hours of quality sleep each night, with a consistent bedtime."
+            ],
+            "stress_management": [
+                "Practice 10 minutes of deep breathing, meditation, or yoga daily.",
+                "Take regular breaks from screens and prioritize downtime."
+            ],
+            "lifestyle": [
+                "Get a routine annual health check-up.",
+                "Maintain a consistent sleep and wake schedule.",
+                "Include at least 30 minutes of physical activity most days of the week."
+            ]
+        },
+        "parameter_explanations": {
+            "Hemoglobin": "Carries oxygen in your blood. Low levels can mean anemia and cause fatigue.",
+            "Wbc Count": "White blood cells fight infection; high counts can signal infection or inflammation.",
+            "Platelet Count": "Platelets help your blood clot; very low or high counts need medical attention.",
+            "Fasting Blood Glucose": "Blood sugar after fasting; consistently high levels can indicate prediabetes/diabetes.",
+            "Total Cholesterol": "A measure of fats in your blood linked to heart disease risk.",
+            "Ldl Cholesterol": "'Bad' cholesterol \u2014 high levels raise heart disease risk.",
+            "Hdl Cholesterol": "'Good' cholesterol \u2014 higher levels help protect your heart.",
+            "Triglycerides": "A type of fat in blood; high levels are linked to heart disease.",
+            "Tsh": "Signals your thyroid to produce hormones; abnormal levels affect metabolism.",
+            "Vitamin D": "Supports bone health and immunity; low levels are very common.",
+            "Vitamin B12": "Needed for nerve function and red blood cell production.",
+            "Serum Creatinine": "A waste product filtered by kidneys; high levels can signal reduced kidney function.",
+            "Sgpt": "A liver enzyme; elevated levels can indicate liver stress or damage.",
+            "Calcium": "Important for bones, muscles, and nerve function."
+        }
+    },
+    "errors": []
+}

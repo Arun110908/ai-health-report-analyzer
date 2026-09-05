@@ -1,0 +1,21 @@
+APEX DIAGNOSTIC LABORATORIES
+Complete Blood Chemistry Report
+
+Patient ID: SAMPLE-010
+Report Format Variant: 2
+----------------------------------------
+Hemoglobin: 16.71 g/dL (13.0-17.0)
+WBC Count: 9.94 10^3/uL (4.0-11.0)
+Platelet Count: 199.89 10^3/uL (150-450)
+Fasting Blood Glucose: 84.08 mg/dL (70-99)
+HbA1c: 4.34 % (4.0-5.6)
+Total Cholesterol: 152.08 mg/dL (120-200)
+LDL Cholesterol: 52.93 mg/dL (50-100)
+HDL Cholesterol: 47.58 mg/dL (40-60)
+Triglycerides: 148.53 mg/dL (50-150)
+TSH: 1.35 uIU/mL (0.4-4.0)
+Vitamin D: 84.88 ng/mL (30-100)
+Vitamin B12: 518.51 pg/mL (200-900)
+Serum Creatinine: 0.9 mg/dL (0.6-1.3)
+SGPT: 53.91 U/L (7-56)
+Calcium: 10.29 mg/dL (8.6-10.3)

@@ -1,0 +1,21 @@
+CITY CARE PATHOLOGY LAB
+Blood Investigation Report
+
+Patient ID: SAMPLE-023
+Report Format Variant: 3
+----------------------------------------
+Hemoglobin: 14.95 g/dL (13.0-17.0)
+WBC Count: 5.91 10^3/uL (4.0-11.0)
+Platelet Count: 295.69 10^3/uL (150-450)
+Fasting Blood Glucose: 81.28 mg/dL (70-99)
+HbA1c: 5.07 % (4.0-5.6)
+Total Cholesterol: 183.85 mg/dL (120-200)
+LDL Cholesterol: 86.21 mg/dL (50-100)
+HDL Cholesterol: 56.81 mg/dL (40-60)
+Triglycerides: 141.95 mg/dL (50-150)
+TSH: 3.93 uIU/mL (0.4-4.0)
+Vitamin D: 67.39 ng/mL (30-100)
+Vitamin B12: 834.85 pg/mL (200-900)
+Serum Creatinine: 1.01 mg/dL (0.6-1.3)
+SGPT: 39.49 U/L (7-56)
+Calcium: 8.74 mg/dL (8.6-10.3)
