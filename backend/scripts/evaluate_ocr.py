@@ -12,6 +12,7 @@ Needs the tesseract binary + pytesseract + Pillow.
 """
 import argparse
 import io
+import os
 import subprocess
 import sys
 import tempfile
@@ -23,14 +24,21 @@ sys.path.insert(0, str(ROOT))
 from PIL import Image, ImageDraw, ImageFilter, ImageFont  # noqa: E402
 import app.ocr_extraction as ocr  # noqa: E402
 
-FONT = "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf"
+_FONT_CANDIDATES = [
+    "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
+    "/System/Library/Fonts/Menlo.ttc",
+    "/System/Library/Fonts/Monaco.ttf",
+    "/Library/Fonts/Courier New.ttf",
+    "C:/Windows/Fonts/consola.ttf",
+]
+FONT = next((c for c in _FONT_CANDIDATES if os.path.exists(c)), None)
 
 
 QUALITY = "poor"   # "good" = clean 300dpi-ish scan, "poor" = blurry phone photo
 
 
 def render(text: str, degrade: bool = True) -> bytes:
-    font = ImageFont.truetype(FONT, 22)
+    font = ImageFont.truetype(FONT, 22) if FONT else ImageFont.load_default()
     lines = text.splitlines()
     w = max(int(font.getlength(l)) for l in lines) + 60
     h = 34 * len(lines) + 60
