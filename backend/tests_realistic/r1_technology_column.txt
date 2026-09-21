@@ -1,0 +1,22 @@
+SREE LAKSHMI DIAGNOSTICS - NABL Accredited                 Report Status: FINAL
+Name : MR. SURESH BABU                       Age/Sex : 45 Y / Male
+Ref. By : Dr. K. ANAND MBBS                  Collected : 12 SEP 2025 07:15 AM
+Barcode : 88213340        Reg. No : 2025-09-118
+
+TEST NAME                 TECHNOLOGY          VALUE      UNITS        REFERENCE RANGE
+COMPLETE BLOOD COUNT
+HEMOGLOBIN (Hb)           PHOTOMETRY          12.4       g/dL         13.0 - 17.0
+TOTAL LEUCOCYTE COUNT     IMPEDANCE           11,200     /cumm        4,000 - 10,000
+PLATELET COUNT            IMPEDANCE           1.8        Lakhs/cumm   1.5 - 4.1
+TOTAL RBC COUNT           IMPEDANCE           4.9        million/cumm 4.5 - 5.5
+PCV                       CALCULATED          38.2       %            40 - 50
+MCV                       CALCULATED          78.0       fL           83 - 101
+NEUTROPHILS               FLOW CYTOMETRY      71         %            40 - 80
+LYMPHOCYTES               FLOW CYTOMETRY      22         %            20 - 40
+LIPID PROFILE
+TOTAL CHOLESTEROL         CHOD-POD            212        mg/dL        < 200
+HDL CHOLESTEROL           DIRECT              38         mg/dL        > 40
+TRIGLYCERIDES             GPO-POD             165        mg/dL        < 150
+LDL CHOLESTEROL           CALCULATED          141        mg/dL        < 100
+Interpretation: Values are for adults. Fasting sample recommended (12 hrs).
+Page 1 of 2

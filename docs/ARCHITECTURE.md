@@ -99,10 +99,11 @@ four functions run as a plain sequential fallback (`app/pipeline.py`,
 4. **Normalization** — `reference_ranges.normalize_parameter_name()` maps OCR
    variants and abbreviations (`Hb`, `HGB`) to a canonical parameter name via
    an alias index.
-5. **Matching & scoring logic** — `reference_ranges.classify_value()` buckets
+5. **Matching & scoring logic** — `reference_ranges.classify_with_range()` buckets
    each value into `normal / low / high / critical_low / critical_high` using
-   the canonical parameter's reference band, with the critical thresholds set
-   at 1.5× the band's width beyond the boundary. Agent 4 then computes the
+   the reference range **printed on the report** (falling back to the built-in
+   table via `classify_value()` when the report has no readable range), with
+   the critical thresholds set at 0.5× the band's width beyond the boundary. Agent 4 then computes the
    overall health score by starting at 100 and subtracting a per-parameter
    penalty (7 points for out-of-range, 15 for critical), floored at 10.
 
@@ -136,13 +137,20 @@ four functions run as a plain sequential fallback (`app/pipeline.py`,
 ## 8. Dataset & testing
 
 - `backend/scripts/generate_sample_reports.py` generates **25 synthetic blood
-  reports** (`backend/sample_data/`) across 4 simulated lab formats, with
-  ~1/3 deliberately containing abnormal values to exercise the deficiency/risk
-  paths.
-- Evaluated informally on: extraction accuracy (parameters found vs. present
-  in the synthetic report), recommendation relevance (every abnormal
-  parameter maps to at least one recommendation), and response time
-  (sub-second per report on the rule-based fallback path).
+  reports** (`backend/sample_data/`) in 4 genuinely different layouts (colon
+  list, spaced table, pipe table with H/L flags, Indian-lab style with
+  `cells/cumm` / `lakhs/cumm` units, sex-specific and multi-band ranges), with
+  noise lines and a `ground_truth.json` label file.
+- `backend/tests_realistic/` holds 5 hand-written reports imitating real lab
+  formats (technology column, SI units, OCR typos, ranges split over lines)
+  with hand-made labels.
+- `python backend/scripts/evaluate.py` measures extraction recall, value
+  accuracy, status (low/normal/high) accuracy and abnormal precision/recall
+  against the labels. `python backend/scripts/evaluate_ocr.py` does the same
+  after rendering the reports to degraded images and running Tesseract.
+  Results are written to `docs/EVALUATION.md` with `--md`. All of this is
+  synthetic / hand-made data: to report accuracy on real reports, label real
+  (de-identified) reports in the same JSON format and pass `--dir/--truth`.
 
 ## 9. API reference (summary)
 

@@ -1,0 +1,14 @@
+Lab: Sunrise Path Labs        Ph: 044 2811 3344
+Patient: Kavitha S       Age 29 F      Date 03-09-2025
+Test                    Result      Units     Normal Range
+Hemoglobln              10.8        g/dl      12.0 - 15.0
+Total WBC Count         7,800       cells/cumm  4,000 - 11,000
+Platelets Count         3.1         lakhs/cumm  1.5 - 4.5
+Cholestrol Total        188         mg/dl     125 - 200
+S. Creatinine           0.71        mg/dl     0.6 - 1.1
+S.G.O.T.                24          U/L       5 - 40
+S.G.P.T.                19          U/L       5 - 40
+Sr. Calcium             9.1         mg/dl     8.6 - 10.2
+Vit D (25-OH)           14.2        ng/ml     30 - 100
+Vitamin B 12            188         pg/ml     211 - 911
+Thyroid Stimulating Hormone (TSH)  6.8   uIU/ml   0.4 - 4.2

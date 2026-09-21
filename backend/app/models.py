@@ -74,6 +74,7 @@ class PipelineState(BaseModel):
     """Shared state object that flows through every LangGraph node."""
     raw_text: str = ""
     file_type: Optional[str] = None
+    ocr_confidence: float = 1.0   # 1.0 for text/native-PDF/DOCX; Tesseract mean confidence for scans
     patient_info: Optional[PatientInfo] = None
     extracted: Optional[ExtractedReport] = None
     analysis: Optional[MedicalAnalysis] = None

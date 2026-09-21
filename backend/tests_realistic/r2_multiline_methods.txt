@@ -1,0 +1,26 @@
+                     CITY DIAGNOSTIC CENTRE
+                 Department of Clinical Biochemistry
+Patient : MRS. LAKSHMI DEVI        Age : 52 Years       Gender : Female
+Sample Type : Serum / Fluoride Plasma                 Reported : 14/09/2025
+
+Investigation                 Result        Unit         Biological Reference Interval
+Glucose, Fasting              118           mg/dL        70 - 100
+   (Method: Hexokinase)
+HbA1c                         6.2           %            4.0 - 5.6
+   (Method: HPLC)
+Creatinine, Serum             0.92          mg/dL        0.55 - 1.02
+   (Method: Jaffe kinetic)
+Urea                          28            mg/dL        15 - 40
+Uric Acid                     5.9           mg/dL        2.6 - 6.0
+SGOT (AST)                    46            U/L          < 35
+SGPT (ALT)                    52            U/L          < 35
+Alkaline Phosphatase          88            U/L          35 - 105
+Bilirubin - Total             0.8           mg/dL        0.3 - 1.2
+Albumin                       4.1           g/dL         3.5 - 5.2
+Total Protein                 7.2           g/dL         6.4 - 8.3
+Sodium                        139           mmol/L       136 - 145
+Potassium                     4.3           mmol/L       3.5 - 5.1
+Interpretation:
+HbA1c 5.7 - 6.4 % : Prediabetes
+HbA1c >= 6.5 % : Diabetes Mellitus
+Note: Results should be correlated clinically.

@@ -1,21 +1,26 @@
 CITY CARE PATHOLOGY LAB
 Blood Investigation Report
-
-Patient ID: SAMPLE-020
+Patient Name: Meena Sundaram
+Age: 35 Years   Sex: Female
+Sample Collected: 09/09/2025 08:37
 Report Format Variant: 0
-----------------------------------------
-Hemoglobin: 15.87 g/dL (13.0-17.0)
-WBC Count: 6.69 10^3/uL (4.0-11.0)
-Platelet Count: 269.9 10^3/uL (150-450)
-Fasting Blood Glucose: 74.28 mg/dL (70-99)
-HbA1c: 5.1 % (4.0-5.6)
-Total Cholesterol: 191.41 mg/dL (120-200)
-LDL Cholesterol: 93.02 mg/dL (50-100)
-HDL Cholesterol: 57.71 mg/dL (40-60)
-Triglycerides: 127.84 mg/dL (50-150)
-TSH: 1.19 uIU/mL (0.4-4.0)
-Vitamin D: 86.29 ng/mL (30-100)
-Vitamin B12: 687.14 pg/mL (200-900)
-Serum Creatinine: 0.93 mg/dL (0.6-1.3)
-SGPT: 34.31 U/L (7-56)
-Calcium: 10.16 mg/dL (8.6-10.3)
+------------------------------------------------------------
+Hemoglobin: 13.17 g/dL (12-15)
+WBC Count: 9.39 10^3/uL (4-11)
+Platelet Count: 433.82 10^3/uL (150-450)
+Fasting Blood Glucose: 70.57 mg/dL (70-99)
+HbA1c: 5.41 % (4-5.6)
+Total Cholesterol: 166.06 mg/dL (120-200)
+LDL Cholesterol: 73.85 mg/dL (50-100)
+HDL Cholesterol: 58.85 mg/dL (40-60)
+Triglycerides: 79.86 mg/dL (50-150)
+TSH: 1.8 uIU/mL (0.4-4)
+Vitamin D: 92.41 ng/mL (30-100)
+Vitamin B12: 785.01 pg/mL (200-900)
+Serum Creatinine: 0.98 mg/dL (0.6-1.3)
+SGPT: 43.0 U/L (7-56)
+Calcium: 9.96 mg/dL (8.6-10.3)
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***
