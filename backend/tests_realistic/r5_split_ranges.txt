@@ -1,0 +1,19 @@
+MEDPLUS HEALTH SERVICES
+Name: Mr. Arjun Menon    Age/Sex: 38 / M
+HAEMATOLOGY
+Haemoglobin           13.9   g/dL
+                      Male   : 13.0 - 17.0
+                      Female : 12.0 - 15.0
+Total WBC Count       9,200  cells/cumm      4,000 - 11,000
+Platelet Count        2.4    Lakh/cumm       1.5 - 4.5
+LIPID PROFILE
+Total Cholesterol     231    mg/dL
+                      Desirable   : < 200
+                      Borderline  : 200 - 239
+                      High        : >= 240
+Triglycerides         188    mg/dL
+                      Normal      : < 150
+                      Borderline  : 150 - 199
+                      High        : 200 - 499
+HDL Cholesterol       44     mg/dL           40 - 60
+LDL Cholesterol       152    mg/dL           < 100

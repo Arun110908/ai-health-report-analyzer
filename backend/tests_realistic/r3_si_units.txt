@@ -1,0 +1,16 @@
+GENERAL HOSPITAL LABORATORY INFORMATION SYSTEM
+PATIENT: DOE, JOHN     DOB: 14-MAR-1978     SEX: M
+COLLECTED: 2025-09-10 06:50   RECEIVED: 2025-09-10 07:20
+
+TEST                          RESULT   FLAG   UNITS       REF RANGE
+Haemoglobin                   118      L      g/L         130 - 170
+Glucose (fasting)             7.4      H      mmol/L      3.9 - 5.6
+Cholesterol total             5.9      H      mmol/L      < 5.2
+Triglycerides                 1.4             mmol/L      < 1.7
+HDL cholesterol               1.1             mmol/L      > 1.0
+Creatinine                    142      H      umol/L      62 - 106
+Urea nitrogen                 9.8      H      mmol/L      2.5 - 7.8
+Calcium                       2.31            mmol/L      2.10 - 2.55
+Vitamin B12                   130      L      pmol/L      145 - 569
+25-OH Vitamin D               48             nmol/L      50 - 125
+TSH                           2.1             mIU/L       0.35 - 4.94

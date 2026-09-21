@@ -1,21 +1,27 @@
-APEX DIAGNOSTIC LABORATORIES
-Complete Blood Chemistry Report
-
-Patient ID: SAMPLE-010
+CITY CARE PATHOLOGY LAB
+Blood Investigation Report
+Patient Name: Divya Nair
+Age: 66 Years   Sex: Female
+Sample Collected: 11/09/2025 08:25
 Report Format Variant: 2
-----------------------------------------
-Hemoglobin: 16.71 g/dL (13.0-17.0)
-WBC Count: 9.94 10^3/uL (4.0-11.0)
-Platelet Count: 199.89 10^3/uL (150-450)
-Fasting Blood Glucose: 84.08 mg/dL (70-99)
-HbA1c: 4.34 % (4.0-5.6)
-Total Cholesterol: 152.08 mg/dL (120-200)
-LDL Cholesterol: 52.93 mg/dL (50-100)
-HDL Cholesterol: 47.58 mg/dL (40-60)
-Triglycerides: 148.53 mg/dL (50-150)
-TSH: 1.35 uIU/mL (0.4-4.0)
-Vitamin D: 84.88 ng/mL (30-100)
-Vitamin B12: 518.51 pg/mL (200-900)
-Serum Creatinine: 0.9 mg/dL (0.6-1.3)
-SGPT: 53.91 U/L (7-56)
-Calcium: 10.29 mg/dL (8.6-10.3)
+------------------------------------------------------------
+| Test | Result | Unit | Ref. Range | Flag |
+| Hb | 14.88 | g/dL | 12 - 15 |  |
+| TLC | 4.56 | 10^3/uL | 4 - 11 |  |
+| Platelets | 205.75 | 10^3/uL | 150 - 450 |  |
+| FBS | 87.26 | mg/dL | 70 - 99 |  |
+| HbA1c | 5.08 | % | 4 - 5.6 |  |
+| Cholesterol | 138.82 | mg/dL | 120 - 200 |  |
+| LDL | 55.99 | mg/dL | 50 - 100 |  |
+| HDL | 57.81 | mg/dL | 40 - 60 |  |
+| TG | 74.62 | mg/dL | 50 - 150 |  |
+| TSH | 2.54 | uIU/mL | 0.4 - 4 |  |
+| Vit D 25-OH | 73.36 | ng/mL | 30 - 100 |  |
+| B12 | 493.46 | pg/mL | 200 - 900 |  |
+| Creatinine | 1.01 | mg/dL | 0.6 - 1.3 |  |
+| ALT | 32.62 | U/L | 7 - 56 |  |
+| Calcium | 10.19 | mg/dL | 8.6 - 10.3 |  |
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***

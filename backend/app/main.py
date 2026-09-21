@@ -66,19 +66,21 @@ def status():
     }
 
 
-def _extract_bytes(filename: str, content: bytes) -> str:
+def _extract_bytes(filename: str, content: bytes):
+    """Returns (text, ocr_confidence)."""
     suffix = filename.lower().rsplit(".", 1)[-1] if "." in filename else ""
+    conf = 1.0
     if suffix == "pdf":
-        text, _conf = extract_text_from_pdf(content)
+        text, conf = extract_text_from_pdf(content)
     elif suffix in ("jpg", "jpeg", "png"):
-        text, _conf = extract_text_from_image(content)
+        text, conf = extract_text_from_image(content)
     elif suffix == "docx":
-        text, _conf = extract_text_from_docx(content)
+        text, conf = extract_text_from_docx(content)
     elif suffix in ("txt",):
         text = content.decode("utf-8", errors="ignore")
     else:
         raise HTTPException(status_code=400, detail=f"Unsupported file type: .{suffix}")
-    return text
+    return text, conf
 
 
 def _parse_patient_info(patient_info_json: Optional[str]) -> Optional[PatientInfo]:
@@ -93,9 +95,10 @@ def _parse_patient_info(patient_info_json: Optional[str]) -> Optional[PatientInf
 @app.post("/api/analyze", response_model=AnalyzeResponse)
 async def analyze(file: UploadFile = File(...), patient_info: Optional[str] = Form(None)):
     content = await file.read()
-    text = _extract_bytes(file.filename, content)
+    text, conf = _extract_bytes(file.filename, content)
 
-    state = PipelineState(raw_text=text, file_type=file.filename.split(".")[-1].lower(),
+    state = PipelineState(raw_text=text, ocr_confidence=conf,
+                          file_type=file.filename.split(".")[-1].lower(),
                            patient_info=_parse_patient_info(patient_info))
     state = run_pipeline(state)
 

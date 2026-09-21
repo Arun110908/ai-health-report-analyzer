@@ -1,21 +1,26 @@
-METRO HEALTH DIAGNOSTICS
-Biochemistry & Hematology Panel
-
-Patient ID: SAMPLE-003
+SUNRISE MEDICAL CENTRE
+Laboratory Test Report
+Patient Name: Priya Lakshmi
+Age: 62 Years   Sex: Male
+Sample Collected: 16/09/2025 08:35
 Report Format Variant: 3
-----------------------------------------
-Hemoglobin: 16.89 g/dL (13.0-17.0)
-WBC Count: 7.86 10^3/uL (4.0-11.0)
-Platelet Count: 335.56 10^3/uL (150-450)
-Fasting Blood Glucose: 86.74 mg/dL (70-99)
-HbA1c: 4.07 % (4.0-5.6)
-Total Cholesterol: 108.81 mg/dL (120-200)
-LDL Cholesterol: 38.05 mg/dL (50-100)
-HDL Cholesterol: 47.3 mg/dL (40-60)
-Triglycerides: 70.95 mg/dL (50-150)
-TSH: 5.53 uIU/mL (0.4-4.0)
-Vitamin D: 41.98 ng/mL (30-100)
-Vitamin B12: 314.38 pg/mL (200-900)
-Serum Creatinine: 1.29 mg/dL (0.6-1.3)
-SGPT: 34.29 U/L (7-56)
-Calcium: 10.03 mg/dL (8.6-10.3)
+------------------------------------------------------------
+Haemoglobin (Hb)                16.45  g/dL   13 - 17  
+Total Leucocyte Count (TLC)     8,930  cells/cumm   4,000 - 11,000  
+Platelet Count                  0.77  lakhs/cumm   1.5 - 4.5  L
+Fasting Blood Sugar (FBS)       65.64  mg/dL   Ref: 70 - 99  L
+HbA1c                           6.05  %   Ref: 4 - 5.6  H
+Total Cholesterol               136.76  mg/dL   Desirable: <200  Borderline: 200-239  High: >=240
+LDL Cholesterol                 121.2  mg/dL   Ref: 50 - 100  H
+HDL Cholesterol                 43.42  mg/dL   Ref: 40 - 60  
+Triglycerides                   66.34  mg/dL   Ref: 50 - 150  
+Thyroid Stimulating Hormone (TSH)3.96  uIU/mL   Ref: 0.4 - 4  
+25-Hydroxy Vitamin D            68.99  ng/mL   Ref: 30 - 100  
+Vitamin B12                     790.0  pg/mL   Ref: 200 - 900  
+Serum Creatinine                0.76  mg/dL   Ref: 0.6 - 1.3  
+SGPT/ALT                        1.05  U/L   Ref: 7 - 56  L
+Serum Calcium                   11.21  mg/dL   Ref: 8.6 - 10.3  H
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***

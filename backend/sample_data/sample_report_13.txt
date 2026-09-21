@@ -1,21 +1,27 @@
-SUNRISE MEDICAL CENTRE
-Laboratory Test Report
-
-Patient ID: SAMPLE-013
+CITY CARE PATHOLOGY LAB
+Blood Investigation Report
+Patient Name: Priya Lakshmi
+Age: 31 Years   Sex: Male
+Sample Collected: 26/09/2025 08:21
 Report Format Variant: 1
-----------------------------------------
-Hemoglobin: 16.73 g/dL (13.0-17.0)
-WBC Count: 4.73 10^3/uL (4.0-11.0)
-Platelet Count: 413.44 10^3/uL (150-450)
-Fasting Blood Glucose: 77.67 mg/dL (70-99)
-HbA1c: 5.42 % (4.0-5.6)
-Total Cholesterol: 179.39 mg/dL (120-200)
-LDL Cholesterol: 57.77 mg/dL (50-100)
-HDL Cholesterol: 45.64 mg/dL (40-60)
-Triglycerides: 71.06 mg/dL (50-150)
-TSH: 1.63 uIU/mL (0.4-4.0)
-Vitamin D: 78.12 ng/mL (30-100)
-Vitamin B12: 797.04 pg/mL (200-900)
-Serum Creatinine: 0.95 mg/dL (0.6-1.3)
-SGPT: 19.3 U/L (7-56)
-Calcium: 10.14 mg/dL (8.6-10.3)
+------------------------------------------------------------
+TEST NAME                             RESULT  UNIT      REFERENCE RANGE
+Haemoglobin                            16.34  g/dL      13 - 17
+Total WBC Count                         8.08  10^3/uL   4 - 11
+Platelet Count                        194.43  10^3/uL   150 - 450
+Glucose Fasting                         73.7  mg/dL     70 - 99
+Glycosylated Hemoglobin (HbA1c)         4.49  %         4 - 5.6
+Cholesterol Total                     191.92  mg/dL     120 - 200
+LDL Cholesterol                        89.81  mg/dL     50 - 100
+HDL Cholesterol                        57.21  mg/dL     40 - 60
+Triglycerides                         139.89  mg/dL     50 - 150
+TSH (Ultrasensitive)                    1.16  uIU/mL    0.4 - 4
+Vitamin D, 25 Hydroxy                  47.47  ng/mL     30 - 100
+Vitamin B12                           271.96  pg/mL     200 - 900
+Creatinine                              1.15  mg/dL     0.6 - 1.3
+SGPT (ALT)                             50.32  U/L       7 - 56
+Calcium                                 9.29  mg/dL     8.6 - 10.3
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***

@@ -1,0 +1,243 @@
+{
+ "r1_technology_column.txt": {
+  "layout": 10,
+  "params": {
+   "hemoglobin": {
+    "value": 12.4,
+    "status": "low"
+   },
+   "wbc count": {
+    "value": 11.2,
+    "status": "high"
+   },
+   "platelet count": {
+    "value": 180,
+    "status": "normal"
+   },
+   "rbc count": {
+    "value": 4.9,
+    "status": "normal"
+   },
+   "hematocrit": {
+    "value": 38.2,
+    "status": "low"
+   },
+   "mcv": {
+    "value": 78.0,
+    "status": "low"
+   },
+   "neutrophils": {
+    "value": 71,
+    "status": "normal"
+   },
+   "lymphocytes": {
+    "value": 22,
+    "status": "normal"
+   },
+   "total cholesterol": {
+    "value": 212,
+    "status": "high"
+   },
+   "hdl cholesterol": {
+    "value": 38,
+    "status": "low"
+   },
+   "triglycerides": {
+    "value": 165,
+    "status": "high"
+   },
+   "ldl cholesterol": {
+    "value": 141,
+    "status": "high"
+   }
+  }
+ },
+ "r2_multiline_methods.txt": {
+  "layout": 11,
+  "params": {
+   "fasting blood glucose": {
+    "value": 118,
+    "status": "high"
+   },
+   "hba1c": {
+    "value": 6.2,
+    "status": "high"
+   },
+   "serum creatinine": {
+    "value": 0.92,
+    "status": "normal"
+   },
+   "urea": {
+    "value": 28,
+    "status": "normal"
+   },
+   "uric acid": {
+    "value": 5.9,
+    "status": "normal"
+   },
+   "sgot": {
+    "value": 46,
+    "status": "high"
+   },
+   "sgpt": {
+    "value": 52,
+    "status": "high"
+   },
+   "alkaline phosphatase": {
+    "value": 88,
+    "status": "normal"
+   },
+   "total bilirubin": {
+    "value": 0.8,
+    "status": "normal"
+   },
+   "albumin": {
+    "value": 4.1,
+    "status": "normal"
+   },
+   "total protein": {
+    "value": 7.2,
+    "status": "normal"
+   },
+   "sodium": {
+    "value": 139,
+    "status": "normal"
+   },
+   "potassium": {
+    "value": 4.3,
+    "status": "normal"
+   }
+  }
+ },
+ "r3_si_units.txt": {
+  "layout": 12,
+  "params": {
+   "hemoglobin": {
+    "value": 11.8,
+    "status": "low"
+   },
+   "fasting blood glucose": {
+    "value": 133.3,
+    "status": "high"
+   },
+   "total cholesterol": {
+    "value": 228.2,
+    "status": "high"
+   },
+   "triglycerides": {
+    "value": 124.0,
+    "status": "normal"
+   },
+   "hdl cholesterol": {
+    "value": 42.5,
+    "status": "normal"
+   },
+   "serum creatinine": {
+    "value": 1.61,
+    "status": "high"
+   },
+   "blood urea nitrogen": {
+    "value": 27.5,
+    "status": "high"
+   },
+   "calcium": {
+    "value": 9.26,
+    "status": "normal"
+   },
+   "vitamin b12": {
+    "value": 176.15,
+    "status": "low"
+   },
+   "vitamin d": {
+    "value": 19.2,
+    "status": "low"
+   },
+   "tsh": {
+    "value": 2.1,
+    "status": "normal"
+   }
+  }
+ },
+ "r4_ocr_typos.txt": {
+  "layout": 13,
+  "params": {
+   "hemoglobin": {
+    "value": 10.8,
+    "status": "low"
+   },
+   "wbc count": {
+    "value": 7.8,
+    "status": "normal"
+   },
+   "platelet count": {
+    "value": 310,
+    "status": "normal"
+   },
+   "total cholesterol": {
+    "value": 188,
+    "status": "normal"
+   },
+   "serum creatinine": {
+    "value": 0.71,
+    "status": "normal"
+   },
+   "sgot": {
+    "value": 24,
+    "status": "normal"
+   },
+   "sgpt": {
+    "value": 19,
+    "status": "normal"
+   },
+   "calcium": {
+    "value": 9.1,
+    "status": "normal"
+   },
+   "vitamin d": {
+    "value": 14.2,
+    "status": "low"
+   },
+   "vitamin b12": {
+    "value": 188,
+    "status": "low"
+   },
+   "tsh": {
+    "value": 6.8,
+    "status": "high"
+   }
+  }
+ },
+ "r5_split_ranges.txt": {
+  "layout": 14,
+  "params": {
+   "hemoglobin": {
+    "value": 13.9,
+    "status": "normal"
+   },
+   "wbc count": {
+    "value": 9.2,
+    "status": "normal"
+   },
+   "platelet count": {
+    "value": 240,
+    "status": "normal"
+   },
+   "total cholesterol": {
+    "value": 231,
+    "status": "high"
+   },
+   "triglycerides": {
+    "value": 188,
+    "status": "high"
+   },
+   "hdl cholesterol": {
+    "value": 44,
+    "status": "normal"
+   },
+   "ldl cholesterol": {
+    "value": 152,
+    "status": "high"
+   }
+  }
+ }
+}

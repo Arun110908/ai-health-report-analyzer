@@ -1,21 +1,27 @@
-CITY CARE PATHOLOGY LAB
-Blood Investigation Report
-
-Patient ID: SAMPLE-002
+METRO HEALTH DIAGNOSTICS
+Biochemistry & Hematology Panel
+Patient Name: Ravi Kumar
+Age: 56 Years   Sex: Female
+Sample Collected: 10/09/2025 08:50
 Report Format Variant: 2
-----------------------------------------
-Hemoglobin: 14.8 g/dL (13.0-17.0)
-WBC Count: 5.95 10^3/uL (4.0-11.0)
-Platelet Count: 410.79 10^3/uL (150-450)
-Fasting Blood Glucose: 92.01 mg/dL (70-99)
-HbA1c: 4.26 % (4.0-5.6)
-Total Cholesterol: 153.81 mg/dL (120-200)
-LDL Cholesterol: 63.89 mg/dL (50-100)
-HDL Cholesterol: 44.31 mg/dL (40-60)
-Triglycerides: 126.35 mg/dL (50-150)
-TSH: 0.77 uIU/mL (0.4-4.0)
-Vitamin D: 56.59 ng/mL (30-100)
-Vitamin B12: 451.29 pg/mL (200-900)
-Serum Creatinine: 0.84 mg/dL (0.6-1.3)
-SGPT: 19.96 U/L (7-56)
-Calcium: 8.67 mg/dL (8.6-10.3)
+------------------------------------------------------------
+| Test | Result | Unit | Ref. Range | Flag |
+| Hb | 14.43 | g/dL | 12 - 15 |  |
+| TLC | 4.05 | 10^3/uL | 4 - 11 |  |
+| Platelets | 391.75 | 10^3/uL | 150 - 450 |  |
+| FBS | 90.25 | mg/dL | 70 - 99 |  |
+| HbA1c | 4.54 | % | 4 - 5.6 |  |
+| Cholesterol | 132.44 | mg/dL | 120 - 200 |  |
+| LDL | 97.86 | mg/dL | 50 - 100 |  |
+| HDL | 46.73 | mg/dL | 40 - 60 |  |
+| TG | 59.27 | mg/dL | 50 - 150 |  |
+| TSH | 0.75 | uIU/mL | 0.4 - 4 |  |
+| Vit D 25-OH | 89.32 | ng/mL | 30 - 100 |  |
+| B12 | 622.61 | pg/mL | 200 - 900 |  |
+| Creatinine | 1.16 | mg/dL | 0.6 - 1.3 |  |
+| ALT | 42.76 | U/L | 7 - 56 |  |
+| Calcium | 9.51 | mg/dL | 8.6 - 10.3 |  |
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***

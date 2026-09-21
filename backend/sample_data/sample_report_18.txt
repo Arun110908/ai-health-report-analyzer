@@ -1,21 +1,27 @@
-METRO HEALTH DIAGNOSTICS
-Biochemistry & Hematology Panel
-
-Patient ID: SAMPLE-018
+CITY CARE PATHOLOGY LAB
+Blood Investigation Report
+Patient Name: Divya Nair
+Age: 38 Years   Sex: Female
+Sample Collected: 25/09/2025 08:59
 Report Format Variant: 2
-----------------------------------------
-Hemoglobin: 18.48 g/dL (13.0-17.0)
-WBC Count: 9.19 10^3/uL (4.0-11.0)
-Platelet Count: 259.27 10^3/uL (150-450)
-Fasting Blood Glucose: 106.69 mg/dL (70-99)
-HbA1c: 6.34 % (4.0-5.6)
-Total Cholesterol: 95.66 mg/dL (120-200)
-LDL Cholesterol: 64.78 mg/dL (50-100)
-HDL Cholesterol: 28.6 mg/dL (40-60)
-Triglycerides: 140.28 mg/dL (50-150)
-TSH: 1.48 uIU/mL (0.4-4.0)
-Vitamin D: 30.03 ng/mL (30-100)
-Vitamin B12: -72.99 pg/mL (200-900)
-Serum Creatinine: 0.93 mg/dL (0.6-1.3)
-SGPT: 17.47 U/L (7-56)
-Calcium: 10.13 mg/dL (8.6-10.3)
+------------------------------------------------------------
+| Test | Result | Unit | Ref. Range | Flag |
+| Hb | 10.76 | g/dL | 12 - 15 | L |
+| TLC | 13.43 | 10^3/uL | 4 - 11 | H |
+| Platelets | 480.83 | 10^3/uL | 150 - 450 | H |
+| FBS | 92.33 | mg/dL | 70 - 99 |  |
+| HbA1c | 3.7 | % | 4 - 5.6 | L |
+| Cholesterol | 161.44 | mg/dL | 120 - 200 |  |
+| LDL | 23.79 | mg/dL | 50 - 100 | L |
+| HDL | 56.03 | mg/dL | 40 - 60 |  |
+| TG | 148.79 | mg/dL | 50 - 150 |  |
+| TSH | 3.82 | uIU/mL | 0.4 - 4 |  |
+| Vit D 25-OH | 72.89 | ng/mL | 30 - 100 |  |
+| B12 | 553.34 | pg/mL | 200 - 900 |  |
+| Creatinine | 0.98 | mg/dL | 0.6 - 1.3 |  |
+| ALT | 43.44 | U/L | 7 - 56 |  |
+| Calcium | 9.04 | mg/dL | 8.6 - 10.3 |  |
+------------------------------------------------------------
+Method: Photometry / Automated analyser
+Page 1 of 1
+*** End of Report ***
