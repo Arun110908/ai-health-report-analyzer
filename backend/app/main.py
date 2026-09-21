@@ -136,3 +136,10 @@ def analyze_sample(sample_name: str):
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
+
+
+from fastapi.staticfiles import StaticFiles  # noqa: E402
+
+_STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+if _STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=str(_STATIC_DIR), html=True), name="frontend")

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ai-health-report-analyzer
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
