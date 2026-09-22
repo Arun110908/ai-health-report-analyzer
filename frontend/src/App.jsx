@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getStatus, listSamples, analyzeFile, analyzeSample } from "./api";
+import { BrandMark, EkgTrace, IconUpload, IconReport } from "./icons.jsx";
 import UploadPanel from "./components/UploadPanel.jsx";
-import HealthScoreHero from "./components/HealthScoreHero.jsx";
+import VitalsDial from "./components/VitalsDial.jsx";
 import AlertBanner from "./components/AlertBanner.jsx";
 import ParameterTable from "./components/ParameterTable.jsx";
 import InsightsPanel from "./components/InsightsPanel.jsx";
@@ -33,50 +34,74 @@ export default function App() {
         setError((data.errors && data.errors.join(" ")) || "Analysis failed.");
       }
     } catch (e) {
-      setError("Could not reach the backend. Is the FastAPI server running on :8000?");
+      setError("Could not reach the backend. Is the FastAPI server running?");
     } finally {
       setLoading(false);
     }
   };
 
+  const Brand = ({ small }) => (
+    <div className="brand-row">
+      <BrandMark size={small ? 26 : 30} />
+      <span className="brand-word">AXD</span>
+    </div>
+  );
+
+  const Nav = ({ className, compact }) => (
+    <>
+      <button className={`${className} ${view === "upload" ? "active" : ""}`} onClick={() => setView("upload")}>
+        <IconUpload />
+        {compact ? "Upload" : "Upload report"}
+      </button>
+      <button
+        className={`${className} ${view === "report" ? "active" : ""}`}
+        onClick={() => report && setView("report")}
+        disabled={!report}
+      >
+        <IconReport />
+        Report
+      </button>
+    </>
+  );
+
   return (
     <div className="shell">
       <aside className="rail">
-        <p className="brand">Vitals</p>
-        <p className="brand-sub">AI Health Report Analyzer &amp; Personal Health Assistant</p>
+        <Brand />
+        <p className="brand-tagline">Turns a blood report into a plain-language health summary.</p>
 
-        <p className="rail-section-label">Navigate</p>
-        <div className="rail-nav">
-          <button className={view === "upload" ? "active" : ""} onClick={() => setView("upload")}>
-            Upload report
-          </button>
-          <button
-            className={view === "report" ? "active" : ""}
-            onClick={() => report && setView("report")}
-            disabled={!report}
-          >
-            Report {report ? "" : "(none yet)"}
-          </button>
-        </div>
+        <nav className="rail-nav">
+          <Nav className="nav-btn" />
+        </nav>
 
         <div className="rail-status">
-          <div>
+          <div className="rail-status-row">
             <span className={`status-dot ${status ? "" : "off"}`} />
-            {status ? "Backend connected" : "Backend offline"}
+            <span className="value">{status ? "Backend connected" : "Backend offline"}</span>
           </div>
           {status && (
             <>
-              <div>Engine: {status.pipeline_engine}</div>
-              <div>LLM: {status.llm_enabled ? "Claude API" : "rule-based fallback"}</div>
+              <div className="rail-status-row">
+                <span className="label">engine</span>
+                <span className="value">{status.pipeline_engine}</span>
+              </div>
+              <div className="rail-status-row">
+                <span className="label">model</span>
+                <span className="value">{status.llm_enabled ? "Claude API" : "rule-based"}</span>
+              </div>
             </>
           )}
         </div>
       </aside>
 
+      <header className="topbar">
+        <Brand small />
+        <span className={`status-dot ${status ? "" : "off"}`} />
+      </header>
+
       <main className="main">
         {view === "upload" && (
           <>
-            <p className="eyebrow-row" />
             <h1 className="page-title">Understand your blood report</h1>
             <p className="page-lede">
               Upload a lab report and a four-agent pipeline extracts every parameter, compares it
@@ -90,12 +115,17 @@ export default function App() {
               loading={loading}
             />
             {loading && (
-              <div className="empty-state">
-                <div className="spinner" />
-                Running the report through the four agents…
+              <div className="loading-state">
+                <div className="ekg-wrap">
+                  <EkgTrace />
+                </div>
+                <div>
+                  <p className="loading-text">Running the report through the four agents</p>
+                  <p className="loading-sub">Reading, analyzing, and writing your summary&hellip;</p>
+                </div>
               </div>
             )}
-            {error && <div className="error-box" style={{ marginTop: 20 }}>{error}</div>}
+            {error && <div className="error-box">{error}</div>}
           </>
         )}
 
@@ -103,14 +133,15 @@ export default function App() {
           <>
             <h1 className="page-title">Health summary</h1>
             <AlertBanner report={report} />
-            <HealthScoreHero report={report} />
-            <hr className="hr" />
+            <div className="hero-grid">
+              <VitalsDial score={report.overall_health_score} />
+              <div className="side-card">
+                <p className="summary-text">{report.summary}</p>
+              </div>
+            </div>
             <ParameterTable parameters={report.parameters} />
-            <hr className="hr" />
             <InsightsPanel report={report} />
-            <hr className="hr" />
             <RecommendationsPanel recs={report.recommendations} />
-            <hr className="hr" />
             <ExplanationsPanel explanations={report.parameter_explanations} />
             <p className="disclaimer">
               This report is generated by an AI system for informational purposes only. It is not a
@@ -120,6 +151,10 @@ export default function App() {
           </>
         )}
       </main>
+
+      <nav className="tabbar">
+        <Nav className="tab-btn" compact />
+      </nav>
     </div>
   );
 }

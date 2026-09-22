@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { UploadIcon } from "../icons.jsx";
 
 export default function UploadPanel({ onFile, samples, onSample, loading }) {
   const inputRef = useRef(null);
@@ -22,10 +23,11 @@ export default function UploadPanel({ onFile, samples, onSample, loading }) {
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
       >
+        <UploadIcon />
         <p className="primary">Drop a blood report here</p>
-        <p className="secondary">PDF, JPG, PNG, or DOCX &mdash; scanned reports are OCR'd automatically</p>
-        <button className="btn" onClick={() => inputRef.current?.click()} disabled={loading}>
-          {loading ? "Analyzing…" : "Choose a file"}
+        <p className="secondary">PDF, JPG, PNG, or DOCX &mdash; scanned reports are read automatically</p>
+        <button className="btn-primary" onClick={() => inputRef.current?.click()} disabled={loading}>
+          {loading ? "Analyzing\u2026" : "Choose a file"}
         </button>
         <input
           ref={inputRef}
@@ -38,9 +40,7 @@ export default function UploadPanel({ onFile, samples, onSample, loading }) {
 
       {samples?.length > 0 && (
         <>
-          <p className="section-note" style={{ marginTop: 22 }}>
-            Or try one of the bundled synthetic sample reports
-          </p>
+          <p className="section-note samples-label">Or try one of the bundled synthetic sample reports</p>
           <div className="sample-list">
             {samples.slice(0, 8).map((s) => (
               <button key={s} className="sample-chip" onClick={() => onSample(s)} disabled={loading}>

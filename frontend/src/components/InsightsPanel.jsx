@@ -1,20 +1,20 @@
 function InsightGroup({ title, note, items }) {
-  if (!items.length) return null;
   return (
-    <div style={{ marginBottom: 28 }}>
+    <div className="section-block">
       <h2 className="section-title">{title}</h2>
       <p className="section-note">{note}</p>
-      <div>
-        {items.map((item, i) => (
-          <div className="insight-row" key={i}>
-            <div className={`insight-marker ${item.severity}`} />
-            <div>
+      {items.length ? (
+        <div className="insight-grid">
+          {items.map((item, i) => (
+            <div className={`insight-card sev-${item.severity}`} key={i}>
               <p className="insight-title">{item.title}</p>
               <p className="insight-body">{item.explanation}</p>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="empty-note">Nothing flagged here for this report.</p>
+      )}
     </div>
   );
 }
