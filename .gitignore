@@ -1,10 +1,19 @@
-venv/
-.venv/
-node_modules/
+# Python
+backend/venv/
+backend/.venv/
 __pycache__/
-*.pyc
-.env
-.env.*
+*.py[cod]
+.pytest_cache/
+
+# Generated ML demo artifacts and datasets
+backend/models/*.joblib
+backend/data/*.csv
+
+# Frontend
+frontend/node_modules/
 frontend/dist/
-backend/static/
+
+# Local configuration and operating-system files
+.env
+backend/.env
 .DS_Store

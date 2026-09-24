@@ -21,17 +21,48 @@ from app.reference_ranges import normalize_parameter_name, is_exact_alias as _cl
 
 
 def _prep_for_ocr(img):
-    """Grayscale + autocontrast + upscale small scans. Tesseract is far more
-    accurate on ~300 DPI, high-contrast text than on raw phone photos."""
-    from PIL import Image, ImageOps
-    img = ImageOps.autocontrast(ImageOps.grayscale(img))
-    if img.width < 1800:
-        scale = 1800 / img.width
+    """Prepare phone photos and scans for table-oriented OCR.
+
+    EXIF rotation is corrected first.  The image is then made grayscale,
+    contrast-normalised, enlarged to roughly 300-DPI text size, and lightly
+    sharpened.  This intentionally avoids aggressive thresholding: hard
+    black/white conversion can erase decimal points and faint lab-table lines.
+    """
+    from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+
+    img = ImageOps.exif_transpose(img)
+    img = ImageOps.grayscale(img)
+    img = ImageOps.autocontrast(img, cutoff=1)
+    if img.width < 2200:
+        scale = 2200 / img.width
         img = img.resize((int(img.width * scale), int(img.height * scale)), Image.LANCZOS)
-    return img
+    img = ImageEnhance.Contrast(img).enhance(1.35)
+    return img.filter(ImageFilter.UnsharpMask(radius=1.6, percent=145, threshold=3))
 
 
-OCR_CONFIG = "--psm 6"  # assume one uniform block of text (lab tables)
+OCR_CONFIG = "--oem 3 --psm 6 -c preserve_interword_spaces=1"
+
+
+def _mean_ocr_confidence(data: dict) -> float:
+    """Convert Tesseract's confidence strings to a reliable 0..1 score."""
+    values = []
+    for raw in data.get("conf", []):
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            continue
+        if value >= 0:
+            values.append(value)
+    return (sum(values) / len(values) / 100.0) if values else 0.5
+
+
+def _readable_native_text(text: str) -> bool:
+    """Avoid accepting sparse/gibberish PDF text instead of running OCR."""
+    compact = re.sub(r"\s+", "", text)
+    if len(compact) < 80:
+        return False
+    alphanumeric = sum(ch.isalnum() for ch in compact)
+    return alphanumeric / max(len(compact), 1) >= 0.45
 
 
 def extract_text_from_pdf(file_bytes: bytes) -> Tuple[str, float]:
@@ -45,7 +76,7 @@ def extract_text_from_pdf(file_bytes: bytes) -> Tuple[str, float]:
     except Exception as e:  # noqa: BLE001
         logger.warning("pdfplumber failed: %s", e)
 
-    if text.strip():
+    if _readable_native_text(text):
         return text, 0.98  # native text extraction is effectively exact
 
     # Scanned PDF -> rasterize + OCR
@@ -59,9 +90,7 @@ def extract_text_from_pdf(file_bytes: bytes) -> Tuple[str, float]:
             img = _prep_for_ocr(img)
             ocr_text.append(pytesseract.image_to_string(img, config=OCR_CONFIG))
             data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-            confs = [int(c) for c in data.get("conf", []) if c not in ("-1", -1)]
-            if confs:
-                confidences.append(sum(confs) / len(confs))
+            confidences.append(_mean_ocr_confidence(data) * 100)
         avg_conf = (sum(confidences) / len(confidences) / 100.0) if confidences else 0.5
         return "\n".join(ocr_text), avg_conf
     except Exception as e:  # noqa: BLE001
@@ -76,8 +105,7 @@ def extract_text_from_image(file_bytes: bytes) -> Tuple[str, float]:
         img = _prep_for_ocr(Image.open(io.BytesIO(file_bytes)))
         text = pytesseract.image_to_string(img, config=OCR_CONFIG)
         data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-        confs = [int(c) for c in data.get("conf", []) if c not in ("-1", -1)]
-        conf = (sum(confs) / len(confs) / 100.0) if confs else 0.5
+        conf = _mean_ocr_confidence(data)
         return text, conf
     except Exception as e:  # noqa: BLE001
         logger.warning("Image OCR failed: %s", e)
@@ -103,13 +131,19 @@ NON_PARAMETER_LINE_PATTERNS = re.compile(
     r"date|collected|reported|received|physician|doctor|dr\.|address|phone|mobile|"
     r"contact|page\s*\d|diagnostic|pathology|medical\s*cent|ref(erred)?\.?\s*by|"
     r"reg(istration)?\.?\s*no|barcode|accession|visit|invoice|bill|www\.|@|"
-    r"method\s*:|interpretation|note\s*:|end of report)",
+    r"method\s*:|interpretation|note\s*:|end of report|\b(?:is|are)\s+defined\s+as\b)",
     re.IGNORECASE,
 )
 
 _NUM = r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?"
 # a number that stands alone (not glued to letters like HbA1c / B12 / 10^3)
 STANDALONE_NUM_RE = re.compile(rf"(?<![A-Za-z0-9.,^*\-])({_NUM})(?![0-9^*])")
+# Native PDF text often glues an H/L flag to a result (for example H10570).
+# Standalone-number matching cannot see that value because it follows a letter.
+FLAGGED_NUM_RE = re.compile(
+    rf"(?<![A-Za-z0-9.,^*\-])(?P<flag>H|L)\s*(?P<value>{_NUM})(?![0-9^*])",
+    re.IGNORECASE,
+)
 RANGE_RE = re.compile(rf"(?<![0-9.])({_NUM})\s*(?:-|\u2013|\u2014|to)\s*({_NUM})(?![0-9])", re.IGNORECASE)
 UPPER_RE = re.compile(rf"(?:<|\u2264|up\s*to|upto|less\s*than)\s*=?\s*({_NUM})", re.IGNORECASE)
 LOWER_RE = re.compile(rf"(?:>|\u2265|more\s*than|greater\s*than)\s*=?\s*({_NUM})", re.IGNORECASE)
@@ -130,6 +164,11 @@ def _plausible_name(name: str) -> bool:
     numbers ('Hemoglobin (Hb)  15.5  g/dL  13 -' must not count as a name).
     Numbers are only allowed when the whole string is a known alias
     ('Vitamin D, 25 Hydroxy')."""
+    # A real test name is short. This guard stops explanatory prose from
+    # becoming a result merely because a parenthesized phrase resembles an
+    # alias (for example a vitamin-D explanation that contains "vitamin D3").
+    if len(re.findall(r"[A-Za-z]{2,}", name)) > 10:
+        return False
     if not normalize_parameter_name(name):
         return False
     if STANDALONE_NUM_RE.search(name):
@@ -137,23 +176,54 @@ def _plausible_name(name: str) -> bool:
     return True
 
 
+def _number_from_match(match) -> str:
+    """Return a numeric capture from either normal or flag-glued matches."""
+    return match.group("value") if "value" in match.groupdict() else match.group(1)
+
+
+def _clean_result_name(raw_name: str) -> tuple[str, str]:
+    """Remove a result-column H/L marker without touching names such as HDL."""
+    # A comparison sign can sit between a marker and its value, e.g.
+    # ``Vitamin B12 L < 148``. Strip it before checking the final token.
+    name = raw_name.strip(" \t:|-\u2013\u2014.,*<>=")
+    marker = re.search(r"(?:^|\s)(H|L|HH|LL|HIGH|LOW)$", name, re.IGNORECASE)
+    if not marker:
+        return name, ""
+    return name[:marker.start()].strip(" \t:|-\u2013\u2014.,*"), marker.group(1).lower()
+
+
 def _split_name_value(line: str):
-    """Find (name, value_match). Alias-guided: prefer the split whose left-hand
-    side is a KNOWN parameter, so 'Vitamin D, 25 Hydroxy 32.4 ng/mL' or
-    'HbA1c 5.4 %' are not cut at the wrong number."""
-    cands = list(STANDALONE_NUM_RE.finditer(line))
-    best = (None, None)
-    for m in cands[:4]:  # longest left-hand side that is a KNOWN parameter wins
-        name = re.sub(r"^\d+[.)]?\s+", "", line[:m.start()].strip(" \t:|-\u2013\u2014.,*"))
-        if name and _plausible_name(name):
-            best = (name, m)
+    """Find ``(name, value_match, flag)`` from one report row.
+
+    The split is alias-guided: the longest known parameter on the left wins,
+    preserving names such as ``Vitamin D, 25 Hydroxy`` and ``HbA1c``. It also
+    accepts H/L markers glued to values in native PDF text extraction.
+    """
+    candidates = [(m, "") for m in STANDALONE_NUM_RE.finditer(line)]
+    candidates.extend((m, m.group("flag").lower()) for m in FLAGGED_NUM_RE.finditer(line))
+    candidates.sort(key=lambda item: item[0].start())
+
+    parsed = []
+    for match, glued_flag in candidates[:5]:
+        raw_name = re.sub(r"^\d+[.)]?\s+", "", line[:match.start()])
+        name, suffix_flag = _clean_result_name(raw_name)
+        flag = glued_flag or suffix_flag
+        if name:
+            parsed.append((name, match, flag))
+
+    best = (None, None, "")
+    for name, match, flag in parsed:
+        if _plausible_name(name):
+            best = (name, match, flag)
     if best[0]:
         return best
-    for m in cands[:2]:  # unknown parameter: first number after some alphabetic text
-        name = re.sub(r"^\d+[.)]?\s+", "", line[:m.start()].strip(" \t:|-\u2013\u2014.,*"))
-        if name and re.search(r"[A-Za-z]{2}", name):
-            return name, m
-    return None, None
+
+    for name, match, flag in parsed[:2]:
+        # Unknown names are retained only as a last resort. The caller still
+        # requires a unit and a printed range before it accepts such a row.
+        if len(re.findall(r"[A-Za-z]{2,}", name)) <= 10 and re.search(r"[A-Za-z]{2}", name):
+            return name, match, flag
+    return None, None, ""
 
 
 def parse_parameters_from_text(text: str) -> List[dict]:
@@ -170,10 +240,10 @@ def parse_parameters_from_text(text: str) -> List[dict]:
         line = line.replace("|", "  ").replace("\t", "  ").strip()
         if len(line) < 4 or NON_PARAMETER_LINE_PATTERNS.search(line):
             continue
-        name, m = _split_name_value(line)
+        name, m, glued_flag = _split_name_value(line)
         if not name:
             continue
-        raw_value = m.group(1)
+        raw_value = _number_from_match(m)
         try:
             value = _to_float(raw_value)
         except ValueError:
@@ -196,7 +266,7 @@ def parse_parameters_from_text(text: str) -> List[dict]:
         # n_bands >= 2 (male/female, desirable/borderline/high ...) -> ambiguous, ignore
 
         # ---- unit + flag ----
-        unit, flag = "", ""
+        unit, flag = "", glued_flag
         for tok in rest.split():
             t = tok.strip("(),;:")
             tl = t.lower()

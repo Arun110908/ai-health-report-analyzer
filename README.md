@@ -118,6 +118,14 @@ Open http://localhost:5173 — the dev server proxies `/api` to `localhost:8000`
 curl -X POST http://localhost:8000/api/analyze-sample/sample_report_01.txt
 ```
 
+### Deploy from an existing repository
+
+The project includes a production [`Dockerfile`](Dockerfile) that builds the
+React dashboard and FastAPI API into one deployable service. Use it locally
+with `docker compose up --build`, or connect your existing Git repository to
+any Docker-capable host and expose port `8000`. See [`DEPLOY.md`](DEPLOY.md)
+for the complete safe deployment steps and secret configuration.
+
 ## 4. Deliverables checklist
 
 | Deliverable | Location |

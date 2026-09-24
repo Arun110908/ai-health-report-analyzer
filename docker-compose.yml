@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        TRAIN_DEMO_RISK_MODEL: "true"
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: "8000"
+      # Optional: set ANTHROPIC_API_KEY in your deployment host's secret store.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}

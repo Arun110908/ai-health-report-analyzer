@@ -91,7 +91,7 @@ REFERENCE_RANGES: Dict[str, Dict] = {
                           "display": "Total Cholesterol"},
     "ldl cholesterol": {"unit": "mg/dL", "low": 0, "high": 100, "source": "AHA",
                         "aliases": ["lol cholesterol", "ldl", "ldl c", "ldl cholesterol direct", "cholesterol ldl",
-                                    "low density lipoprotein"], "display": "LDL Cholesterol"},
+    "low density lipoprotein", "direct ldl", "ldl direct"], "display": "LDL Cholesterol"},
     "hdl cholesterol": {"unit": "mg/dL", "low": 40, "high": 60, "source": "AHA",
                         "aliases": ["hdl", "hdl c", "cholesterol hdl", "high density lipoprotein"],
                         "display": "HDL Cholesterol"},
@@ -208,7 +208,7 @@ _METHOD_PHRASES = sorted([
     "calculation", "computed", "direct", "enzymatic", "colorimetric", "hplc", "clia", "cmia", "eclia",
     "elisa", "jaffe", "jaffe kinetic", "kinetic", "hexokinase", "ise", "turbidimetry", "nephelometry",
     "immunoturbidimetry", "ifcc", "arsenazo", "bcg", "biuret", "diazo", "urease", "chemiluminescence",
-    "automated", "microscopy", "vanadate", "uv", "pod", "ecl", "immunoassay",
+    "automated", "microscopy", "microscopic", "vanadate", "uv", "pod", "ecl", "immunoassay",
 ], key=len, reverse=True)
 
 

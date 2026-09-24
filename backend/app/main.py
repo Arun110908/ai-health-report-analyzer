@@ -13,11 +13,13 @@ Endpoints:
 """
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.models import PipelineState, PatientInfo, AnalyzeResponse
 from app.pipeline import run_pipeline, using_langgraph
@@ -27,6 +29,7 @@ from app.ocr_extraction import (
     extract_text_from_image,
     extract_text_from_docx,
 )
+from app.ml_risk import risk_model_status
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -63,7 +66,14 @@ def status():
             "Agent 3 - Recommendation",
             "Agent 4 - Report Generation",
         ],
+        "ml_risk": risk_model_status(),
     }
+
+
+@app.get("/api/risk-model/status")
+def risk_status():
+    """Report whether the optional LightGBM + KNN artifact is ready."""
+    return risk_model_status()
 
 
 def _extract_bytes(filename: str, content: bytes):
@@ -126,20 +136,21 @@ def list_sample_reports():
 
 
 @app.post("/api/analyze-sample/{sample_name}", response_model=AnalyzeResponse)
-def analyze_sample(sample_name: str):
+def analyze_sample(sample_name: str, patient_info: Optional[str] = Form(None)):
     path = SAMPLE_DIR / sample_name
     if not path.exists():
         raise HTTPException(status_code=404, detail="Sample report not found.")
     text = path.read_text()
-    state = PipelineState(raw_text=text, file_type="text")
+    state = PipelineState(raw_text=text, file_type="text", patient_info=_parse_patient_info(patient_info))
     state = run_pipeline(state)
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
 
 
-from fastapi.staticfiles import StaticFiles  # noqa: E402
-
-_STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
-if _STATIC_DIR.exists():
-    app.mount("/", StaticFiles(directory=str(_STATIC_DIR), html=True), name="frontend")
+# The Vite development server handles the frontend during local development.
+# A production Docker image sets STATIC_DIR to its compiled React assets so the
+# API and dashboard can be deployed together as one service.
+STATIC_DIR = Path(os.getenv("STATIC_DIR", "/app/static"))
+if STATIC_DIR.is_dir():
+    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="frontend")

@@ -2,11 +2,11 @@
 Pydantic models shared across the pipeline.
 """
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class PatientInfo(BaseModel):
-    age: Optional[int] = None
+    age: Optional[int] = Field(default=None, ge=1, le=120)
     gender: Optional[str] = None
     height_cm: Optional[float] = None
     weight_kg: Optional[float] = None
@@ -14,6 +14,15 @@ class PatientInfo(BaseModel):
     medications: Optional[List[str]] = Field(default_factory=list)
     lifestyle_habits: Optional[List[str]] = Field(default_factory=list)
     symptoms: Optional[List[str]] = Field(default_factory=list)
+    # Optional inputs for the academic LightGBM + KNN metabolic-risk demo.
+    # They are never persisted and are not needed for normal report analysis.
+    systolic_bp: Optional[float] = Field(default=None, ge=60, le=250)
+    fasting_insulin: Optional[float] = Field(default=None, ge=0, le=900)
+    bmi: Optional[float] = Field(default=None, ge=10, le=70)
+    fasting_glucose: Optional[float] = Field(default=None, ge=40, le=500)
+    total_cholesterol: Optional[float] = Field(default=None, ge=80, le=500)
+    hba1c: Optional[float] = Field(default=None, ge=3, le=18)
+    post_meal_glucose: Optional[float] = Field(default=None, ge=40, le=500)
 
 
 class BloodParameter(BaseModel):
@@ -57,6 +66,30 @@ class Recommendations(BaseModel):
     lifestyle: List[str] = Field(default_factory=list)
 
 
+class RiskFeatureContribution(BaseModel):
+    feature: str
+    display_name: str
+    value: float
+    shap_contribution: float
+
+
+class MetabolicRiskPrediction(BaseModel):
+    """Optional, non-diagnostic output from the LightGBM + KNN ensemble."""
+    model_config = ConfigDict(protected_namespaces=())
+    status: str  # available | model_not_trained | insufficient_data | unavailable
+    message: str
+    risk_score: Optional[float] = None
+    risk_band: Optional[str] = None
+    model_id: Optional[str] = None
+    model_agreement: Optional[float] = None
+    missing_features: List[str] = Field(default_factory=list)
+    top_contributors: List[RiskFeatureContribution] = Field(default_factory=list)
+    disclaimer: str = (
+        "Academic decision-support demonstration only. This score is not a diagnosis, "
+        "screening result, or treatment recommendation."
+    )
+
+
 class FinalReport(BaseModel):
     overall_health_score: int
     summary: str
@@ -68,6 +101,7 @@ class FinalReport(BaseModel):
     health_risks: List[DeficiencyOrRisk]
     recommendations: Recommendations
     parameter_explanations: Dict[str, str]
+    metabolic_risk: Optional[MetabolicRiskPrediction] = None
 
 
 class PipelineState(BaseModel):
@@ -79,6 +113,7 @@ class PipelineState(BaseModel):
     extracted: Optional[ExtractedReport] = None
     analysis: Optional[MedicalAnalysis] = None
     recommendations: Optional[Recommendations] = None
+    metabolic_risk: Optional[MetabolicRiskPrediction] = None
     final_report: Optional[FinalReport] = None
     errors: List[str] = Field(default_factory=list)
 

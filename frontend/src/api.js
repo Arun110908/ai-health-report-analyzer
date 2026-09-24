@@ -21,9 +21,12 @@ export async function analyzeFile(file, patientInfo) {
   return res.json();
 }
 
-export async function analyzeSample(name) {
+export async function analyzeSample(name, patientInfo) {
+  const form = new FormData();
+  if (patientInfo) form.append("patient_info", JSON.stringify(patientInfo));
   const res = await fetch(`${BASE}/api/analyze-sample/${encodeURIComponent(name)}`, {
     method: "POST",
+    body: form,
   });
   return res.json();
 }

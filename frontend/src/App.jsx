@@ -8,6 +8,7 @@ import ParameterTable from "./components/ParameterTable.jsx";
 import InsightsPanel from "./components/InsightsPanel.jsx";
 import RecommendationsPanel from "./components/RecommendationsPanel.jsx";
 import ExplanationsPanel from "./components/ExplanationsPanel.jsx";
+import MLRiskPanel from "./components/MLRiskPanel.jsx";
 
 export default function App() {
   const [status, setStatus] = useState(null);
@@ -109,9 +110,9 @@ export default function App() {
               health summary with personalized recommendations.
             </p>
             <UploadPanel
-              onFile={(file) => runAnalysis(analyzeFile(file))}
+              onFile={(file, patientInfo) => runAnalysis(analyzeFile(file, patientInfo))}
               samples={samples}
-              onSample={(name) => runAnalysis(analyzeSample(name))}
+              onSample={(name, patientInfo) => runAnalysis(analyzeSample(name, patientInfo))}
               loading={loading}
             />
             {loading && (
@@ -141,6 +142,7 @@ export default function App() {
             </div>
             <ParameterTable parameters={report.parameters} />
             <InsightsPanel report={report} />
+            <MLRiskPanel prediction={report.metabolic_risk} />
             <RecommendationsPanel recs={report.recommendations} />
             <ExplanationsPanel explanations={report.parameter_explanations} />
             <p className="disclaimer">

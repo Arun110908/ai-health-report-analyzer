@@ -18,6 +18,7 @@ rule-based engine produces the same fields.
 from app.models import PipelineState, MedicalAnalysis, DeficiencyOrRisk
 from app.reference_ranges import get_reference, normalize_parameter_name
 from app.llm_client import claude_client
+from app.ml_risk import predict_metabolic_risk
 
 DEFICIENCY_PARAMS = {"hemoglobin", "vitamin d", "vitamin b12", "serum iron", "ferritin", "calcium"}
 
@@ -109,6 +110,7 @@ def _build_llm_context(state: PipelineState) -> str:
 def run(state: PipelineState) -> PipelineState:
     if not state.extracted or not state.extracted.parameters:
         state.analysis = MedicalAnalysis()
+        state.metabolic_risk = predict_metabolic_risk(state)
         return state
 
     if claude_client.available:
@@ -137,9 +139,11 @@ def run(state: PipelineState) -> PipelineState:
                     sources_consulted=["WHO", "NIH", "Mayo Clinic (via curated reference set)"],
                 )
                 state.analysis = analysis
+                state.metabolic_risk = predict_metabolic_risk(state)
                 return state
             except Exception:  # noqa: BLE001
                 pass  # fall through to rule-based
 
     state.analysis = _rule_based_analysis(state)
+    state.metabolic_risk = predict_metabolic_risk(state)
     return state

@@ -20,24 +20,6 @@ from app.agents import (
 
 logger = logging.getLogger(__name__)
 
-
-def _langchain_compat_shim():
-    """Newer `langchain` 1.x (preinstalled on Google Colab) removed attributes that
-    langchain-core 0.3.x still reads. We never use `langchain`, so give it defaults."""
-    try:
-        import langchain
-    except ImportError:
-        return
-    for name, default in (("debug", False), ("verbose", False), ("llm_cache", None)):
-        if not hasattr(langchain, name):
-            try:
-                setattr(langchain, name, default)
-            except Exception:
-                pass
-
-
-_langchain_compat_shim()
-
 try:
     from langgraph.graph import StateGraph, END
 
