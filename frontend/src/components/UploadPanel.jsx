@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { UploadIcon } from "../icons.jsx";
 
-export default function UploadPanel({ onFile, samples, onSample, loading }) {
+export default function UploadPanel({ onFile, samples, onSample, loading, selectedFile }) {
   const inputRef = useRef(null);
   const [dragActive, setDragActive] = useState(false);
   const [showContext, setShowContext] = useState(false);
@@ -62,6 +62,20 @@ export default function UploadPanel({ onFile, samples, onSample, loading }) {
           onChange={(e) => e.target.files?.[0] && analyzeFile(e.target.files[0])}
         />
       </div>
+
+      {selectedFile && (
+        <div className="selected-file" aria-live="polite">
+          {selectedFile.previewUrl ? (
+            <img src={selectedFile.previewUrl} alt={`Preview of ${selectedFile.name}`} />
+          ) : (
+            <div className="file-placeholder">REPORT</div>
+          )}
+          <div>
+            <p className="selected-file-label">Selected report</p>
+            <p className="selected-file-name">{selectedFile.name}</p>
+          </div>
+        </div>
+      )}
 
       <div className="context-panel">
         <button

@@ -74,5 +74,6 @@ def run(state: PipelineState) -> PipelineState:
         recommendations=recs if recs else Recommendations(),
         parameter_explanations=analysis.parameter_explanations if analysis else {},
         metabolic_risk=state.metabolic_risk,
+        extraction_warnings=state.extracted.warnings if state.extracted else [],
     )
     return state

@@ -17,6 +17,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [view, setView] = useState("upload");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  useEffect(() => () => {
+    if (selectedFile?.previewUrl) URL.revokeObjectURL(selectedFile.previewUrl);
+  }, [selectedFile?.previewUrl]);
 
   useEffect(() => {
     getStatus().then(setStatus).catch(() => setStatus(null));
@@ -32,13 +37,26 @@ export default function App() {
         setReport(data.report);
         setView("report");
       } else {
-        setError((data.errors && data.errors.join(" ")) || "Analysis failed.");
+        setError(data.detail || (data.errors && data.errors.join(" ")) || "Analysis failed.");
       }
     } catch (e) {
       setError("Could not reach the backend. Is the FastAPI server running?");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFile = (file, patientInfo) => {
+    setSelectedFile({
+      name: file.name,
+      previewUrl: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+    });
+    runAnalysis(analyzeFile(file, patientInfo));
+  };
+
+  const handleSample = (name, patientInfo) => {
+    setSelectedFile(null);
+    runAnalysis(analyzeSample(name, patientInfo));
   };
 
   const Brand = ({ small }) => (
@@ -110,10 +128,11 @@ export default function App() {
               health summary with personalized recommendations.
             </p>
             <UploadPanel
-              onFile={(file, patientInfo) => runAnalysis(analyzeFile(file, patientInfo))}
+              onFile={handleFile}
               samples={samples}
-              onSample={(name, patientInfo) => runAnalysis(analyzeSample(name, patientInfo))}
+              onSample={handleSample}
               loading={loading}
+              selectedFile={selectedFile}
             />
             {loading && (
               <div className="loading-state">
@@ -133,6 +152,12 @@ export default function App() {
         {view === "report" && report && (
           <>
             <h1 className="page-title">Health summary</h1>
+            {selectedFile && (
+              <div className="analyzed-file">
+                {selectedFile.previewUrl ? <img src={selectedFile.previewUrl} alt="Uploaded report" /> : <span>REPORT</span>}
+                <span>Analyzed report: {selectedFile.name}</span>
+              </div>
+            )}
             <AlertBanner report={report} />
             <div className="hero-grid">
               <VitalsDial score={report.overall_health_score} />

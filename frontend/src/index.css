@@ -282,6 +282,21 @@ a { color: var(--cyan-soft); }
 .sample-chip:hover:not(:disabled) { border-color: var(--cyan-soft); color: var(--cyan-soft); background: var(--panel-2); }
 .sample-chip:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.selected-file, .analyzed-file {
+  display: flex; align-items: center; gap: 12px; border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm); background: var(--panel); color: var(--ink-soft);
+}
+.selected-file { margin-top: 16px; padding: 10px; }
+.selected-file img, .selected-file .file-placeholder, .analyzed-file img, .analyzed-file > span:first-child {
+  width: 54px; height: 54px; flex: none; border-radius: 6px; object-fit: cover;
+  background: var(--bg-soft); color: var(--cyan-soft); display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+}
+.selected-file-label { margin: 0 0 3px; color: var(--muted); font-size: 12px; }
+.selected-file-name { margin: 0; color: var(--ink); font-size: 14px; overflow-wrap: anywhere; }
+.analyzed-file { width: fit-content; max-width: 100%; margin: -6px 0 16px; padding: 8px 10px; font-size: 13px; }
+.analyzed-file img, .analyzed-file > span:first-child { width: 34px; height: 34px; }
+
 /* Loading -- one motif: a heartbeat trace draws across, in a loop */
 .loading-state {
   margin-top: 26px;
@@ -425,6 +440,13 @@ a { color: var(--cyan-soft); }
   font-size: 13.5px;
   line-height: 1.6;
 }
+
+.extraction-warning {
+  border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 16px;
+  background: rgba(255, 182, 72, 0.08); border: 1px solid rgba(255, 182, 72, 0.3);
+  color: var(--ink-soft); font-size: 13.5px; line-height: 1.6;
+}
+.extraction-warning ul { margin: 8px 0 0; padding-left: 20px; }
 .doctor-note strong { color: var(--amber-soft); font-weight: 600; }
 
 /* ============================================================

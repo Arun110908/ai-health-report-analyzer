@@ -114,6 +114,12 @@ async def analyze(file: UploadFile = File(...), patient_info: Optional[str] = Fo
 
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
+    if not state.final_report.parameters:
+        warnings = state.extracted.warnings if state.extracted else []
+        return AnalyzeResponse(
+            success=False,
+            errors=warnings or ["No blood parameters could be read from this report. Try the original PDF or a clearer, upright image."],
+        )
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
 
 
@@ -125,6 +131,12 @@ async def analyze_text(report_text: str = Form(...), patient_info: Optional[str]
 
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
+    if not state.final_report.parameters:
+        warnings = state.extracted.warnings if state.extracted else []
+        return AnalyzeResponse(
+            success=False,
+            errors=warnings or ["No blood parameters could be read from this report. Try the original PDF or a clearer, upright image."],
+        )
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
 
 

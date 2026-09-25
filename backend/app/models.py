@@ -102,6 +102,7 @@ class FinalReport(BaseModel):
     recommendations: Recommendations
     parameter_explanations: Dict[str, str]
     metabolic_risk: Optional[MetabolicRiskPrediction] = None
+    extraction_warnings: List[str] = Field(default_factory=list)
 
 
 class PipelineState(BaseModel):
