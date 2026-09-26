@@ -20,16 +20,6 @@ export default function AlertBanner({ report }) {
           {report.doctor_consultation_reason}
         </div>
       )}
-      {report.extraction_warnings?.length > 0 && (
-        <div className="extraction-warning">
-          <strong>Check the extracted values against the original report. </strong>
-          <ul>
-            {report.extraction_warnings.map((warning, index) => (
-              <li key={index}>{warning}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </>
   );
 }

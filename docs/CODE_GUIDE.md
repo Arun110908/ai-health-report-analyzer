@@ -16,7 +16,7 @@ React dashboard → FastAPI route → document text extraction → Agent 1 parse
 
 | File | What it does |
 | --- | --- |
-| `app/main.py` | Creates FastAPI, accepts uploads, chooses a reader by suffix, creates `PipelineState`, and returns `FinalReport` JSON. `GET /health` is a simple liveness check. |
+| `app/main.py` | Creates FastAPI, accepts uploads, chooses a reader by suffix, creates `PipelineState`, and returns `FinalReport` JSON. `POST /api/analyze-batch` accepts up to 10 files in one request and analyzes each independently (one file's failure never blocks the others). `GET /health` is a simple liveness check. |
 | `app/models.py` | Defines the Pydantic input, intermediate, and response shapes. This prevents agents and API routes from passing unstructured dictionaries. |
 | `app/pipeline.py` | Wires the four functions as a LangGraph sequence. If LangGraph is unavailable, it runs exactly the same functions sequentially. |
 | `app/ocr_extraction.py` | Reads native PDFs, scanned PDFs/images, DOCX files, and report text. It also turns text rows into parameter/value/unit/range records. |
@@ -27,6 +27,29 @@ React dashboard → FastAPI route → document text extraction → Agent 1 parse
 | `app/agents/agent2_medical_analysis.py` | Builds simple explanations, possible deficiencies, and risks from the structured report. It also requests the optional ML demo output. |
 | `app/agents/agent3_recommendation.py` | Produces safe lifestyle recommendations from abnormal parameters; Claude output is optional. |
 | `app/agents/agent4_report_generation.py` | Calculates the display health score, highlights critical values, and assembles the final response. |
+
+### September 2026 review: real-report bug fixes
+
+A real de-identified Sterling Accuris pathology PDF was used to test the
+parser end to end (not just synthetic data). It exposed and fixed:
+- A bold H/L flag glued directly onto a value with no space (`H10570`)
+  silently broke extraction for that row entirely.
+- A name and its value split across two lines (`Vitamin B12` / `L < 148 ...`)
+  were never joined, dropping the parameter.
+- Method words not in the known list ("Microscopic", "Derived") blocked
+  alias matching, so rows like Neutrophils/Lymphocytes fell back to an
+  "unknown parameter" path and were silently dropped when their line had an
+  ambiguous multi-band reference range.
+- An explanatory sentence in the report body ("Microalbuminuria is defined
+  as...") was briefly misread as a parameter/value pair.
+- A multi-word unit split across a space ("micro g/dL") only kept the first
+  word; "Up to 5.0" style range phrasing was briefly captured as a fake unit.
+
+All are fixed and covered by `backend/tests_real_reports/` (see
+`tests_real_reports/README.md` for exactly how that fixture was verified —
+it is a hand-checked regression snapshot, not an independent benchmark).
+Extraction on that real report is 60/60 parameters, 100% status-correct,
+after the fixes (was silently dropping ~4 real values before).
 
 ### DOCX conversion: where it really happens
 
@@ -79,9 +102,19 @@ The app returns `insufficient_data` instead of inventing medical values.
 
 ```bash
 cd backend
-python scripts/evaluate.py
-python scripts/evaluate.py --dir tests_realistic
-python scripts/evaluate_ocr.py --quality poor
+python scripts/evaluate.py                          # 25 synthetic reports
+python scripts/evaluate.py --dir tests_realistic     # 5 hand-written realistic formats
+python scripts/evaluate.py --dir tests_real_reports  # the real Sterling Accuris PDF
+python scripts/evaluate_ocr.py --quality poor        # blurry-photo OCR, rendered+degraded
+pytest ../tests/test_api.py -q                       # if you added an API test file
+
+# train the risk-model artifact locally (Docker does this automatically at build time)
+python scripts/generate_demo_risk_data.py --rows 600
+python scripts/train_risk_model.py --input data/demo_metabolic_risk.csv
+
+# exercise the new multi-file endpoint
+curl -X POST http://localhost:8000/api/analyze-batch \
+  -F "files=@report1.pdf" -F "files=@report2.docx"
 ```
 
 The bundled extraction test data are synthetic/hand-written. For a real accuracy

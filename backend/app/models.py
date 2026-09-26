@@ -102,7 +102,6 @@ class FinalReport(BaseModel):
     recommendations: Recommendations
     parameter_explanations: Dict[str, str]
     metabolic_risk: Optional[MetabolicRiskPrediction] = None
-    extraction_warnings: List[str] = Field(default_factory=list)
 
 
 class PipelineState(BaseModel):
@@ -126,3 +125,14 @@ class AnalyzeResponse(BaseModel):
     success: bool
     report: Optional[FinalReport] = None
     errors: List[str] = Field(default_factory=list)
+
+
+class BatchReportItem(BaseModel):
+    filename: str
+    success: bool
+    report: Optional[FinalReport] = None
+    errors: List[str] = Field(default_factory=list)
+
+
+class BatchAnalyzeResponse(BaseModel):
+    results: List[BatchReportItem]

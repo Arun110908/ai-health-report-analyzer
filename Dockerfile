@@ -26,10 +26,15 @@ COPY backend/ ./backend/
 # The deployed demo is functional immediately. This uses only generated,
 # clearly labelled synthetic data; no patient reports are embedded in the image.
 ARG TRAIN_DEMO_RISK_MODEL=true
+# The training step must NEVER fail the whole image build (a Render
+# free-tier build machine can be slow/memory-limited): if it errors out for
+# any reason, the app still deploys and simply reports the risk feature as
+# "model_not_trained" instead of crash-looping the entire deployment.
 RUN if [ "$TRAIN_DEMO_RISK_MODEL" = "true" ]; then \
       cd /app/backend \
-      && python scripts/generate_demo_risk_data.py --rows 600 \
-      && python scripts/train_risk_model.py --input data/demo_metabolic_risk.csv; \
+      && (python scripts/generate_demo_risk_data.py --rows 600 \
+          && python scripts/train_risk_model.py --input data/demo_metabolic_risk.csv \
+          || echo "WARNING: risk-model training failed or was skipped; the app will still deploy and run in rule-based mode."); \
     fi
 COPY --from=frontend-build /frontend/dist /app/static
 

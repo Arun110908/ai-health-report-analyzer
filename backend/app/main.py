@@ -21,7 +21,8 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from app.models import PipelineState, PatientInfo, AnalyzeResponse
+from typing import List
+from app.models import PipelineState, PatientInfo, AnalyzeResponse, BatchAnalyzeResponse, BatchReportItem
 from app.pipeline import run_pipeline, using_langgraph
 from app.llm_client import claude_client
 from app.ocr_extraction import (
@@ -114,13 +115,42 @@ async def analyze(file: UploadFile = File(...), patient_info: Optional[str] = Fo
 
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
-    if not state.final_report.parameters:
-        warnings = state.extracted.warnings if state.extracted else []
-        return AnalyzeResponse(
-            success=False,
-            errors=warnings or ["No blood parameters could be read from this report. Try the original PDF or a clearer, upright image."],
-        )
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
+
+
+MAX_BATCH_FILES = 10
+
+
+@app.post("/api/analyze-batch", response_model=BatchAnalyzeResponse)
+async def analyze_batch(files: List[UploadFile] = File(...), patient_info: Optional[str] = Form(None)):
+    """Analyze several reports (PDF/DOCX/JPG/PNG) in one call, each run through
+    the same 4-agent pipeline independently. A failure on one file (bad
+    format, empty scan) never blocks the others -- each row reports its own
+    success/errors so the caller can show a per-file result list."""
+    if len(files) > MAX_BATCH_FILES:
+        raise HTTPException(status_code=400, detail=f"Send at most {MAX_BATCH_FILES} files per batch.")
+
+    shared_patient_info = _parse_patient_info(patient_info)
+    results: List[BatchReportItem] = []
+    for f in files:
+        try:
+            content = await f.read()
+            text, conf = _extract_bytes(f.filename, content)
+            state = PipelineState(raw_text=text, ocr_confidence=conf,
+                                  file_type=f.filename.split(".")[-1].lower(),
+                                  patient_info=shared_patient_info)
+            state = run_pipeline(state)
+            if not state.final_report:
+                results.append(BatchReportItem(filename=f.filename, success=False,
+                               errors=state.errors or ["Pipeline failed to produce a report."]))
+            else:
+                results.append(BatchReportItem(filename=f.filename, success=True,
+                               report=state.final_report, errors=state.errors))
+        except Exception as e:  # noqa: BLE001
+            logger.exception("Batch item failed: %s", f.filename)
+            results.append(BatchReportItem(filename=f.filename, success=False,
+                           errors=[f"Could not process this file: {e}"]))
+    return BatchAnalyzeResponse(results=results)
 
 
 @app.post("/api/analyze-text", response_model=AnalyzeResponse)
@@ -131,12 +161,6 @@ async def analyze_text(report_text: str = Form(...), patient_info: Optional[str]
 
     if not state.final_report:
         return AnalyzeResponse(success=False, errors=state.errors or ["Pipeline failed to produce a report."])
-    if not state.final_report.parameters:
-        warnings = state.extracted.warnings if state.extracted else []
-        return AnalyzeResponse(
-            success=False,
-            errors=warnings or ["No blood parameters could be read from this report. Try the original PDF or a clearer, upright image."],
-        )
     return AnalyzeResponse(success=True, report=state.final_report, errors=state.errors)
 
 

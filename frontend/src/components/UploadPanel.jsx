@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { UploadIcon } from "../icons.jsx";
 
-export default function UploadPanel({ onFile, samples, onSample, loading, selectedFile }) {
+export default function UploadPanel({ onFile, onFiles, samples, onSample, loading }) {
   const inputRef = useRef(null);
   const [dragActive, setDragActive] = useState(false);
   const [showContext, setShowContext] = useState(false);
@@ -28,13 +28,17 @@ export default function UploadPanel({ onFile, samples, onSample, loading, select
   };
 
   const analyzeFile = (file) => onFile(file, patientInfo());
+  const analyzeFiles = (fileList) => {
+    const files = Array.from(fileList);
+    if (files.length > 1 && onFiles) onFiles(files, patientInfo());
+    else if (files.length === 1) analyzeFile(files[0]);
+  };
   const analyzeSample = (name) => onSample(name, patientInfo());
 
   const handleDrop = (e) => {
     e.preventDefault();
     setDragActive(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) analyzeFile(file);
+    if (e.dataTransfer.files?.length) analyzeFiles(e.dataTransfer.files);
   };
 
   return (
@@ -49,33 +53,20 @@ export default function UploadPanel({ onFile, samples, onSample, loading, select
         onDrop={handleDrop}
       >
         <UploadIcon />
-        <p className="primary">Drop a blood report here</p>
-        <p className="secondary">PDF, JPG, PNG, or DOCX &mdash; scanned reports are read automatically</p>
+        <p className="primary">Drop one or more blood reports here</p>
+        <p className="secondary">PDF, JPG, PNG, or DOCX &mdash; select several files to analyze them together</p>
         <button className="btn-primary" onClick={() => inputRef.current?.click()} disabled={loading}>
-          {loading ? "Analyzing\u2026" : "Choose a file"}
+          {loading ? "Analyzing\u2026" : "Choose file(s)"}
         </button>
         <input
           ref={inputRef}
           type="file"
+          multiple
           accept=".pdf,.jpg,.jpeg,.png,.docx"
           style={{ display: "none" }}
-          onChange={(e) => e.target.files?.[0] && analyzeFile(e.target.files[0])}
+          onChange={(e) => e.target.files?.length && analyzeFiles(e.target.files)}
         />
       </div>
-
-      {selectedFile && (
-        <div className="selected-file" aria-live="polite">
-          {selectedFile.previewUrl ? (
-            <img src={selectedFile.previewUrl} alt={`Preview of ${selectedFile.name}`} />
-          ) : (
-            <div className="file-placeholder">REPORT</div>
-          )}
-          <div>
-            <p className="selected-file-label">Selected report</p>
-            <p className="selected-file-name">{selectedFile.name}</p>
-          </div>
-        </div>
-      )}
 
       <div className="context-panel">
         <button

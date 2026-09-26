@@ -98,15 +98,49 @@ def extract_text_from_pdf(file_bytes: bytes) -> Tuple[str, float]:
         return "", 0.0
 
 
+# Blurry phone photos respond very differently to different Tesseract page-
+# segmentation modes -- there is no single PSM that wins on every photo.
+# We run a small, cheap "best-of-N" race and keep whichever result looks
+# most like an actual lab report, rather than trusting one fixed config.
+_OCR_PSM_CANDIDATES = [
+    "--oem 3 --psm 6 -c preserve_interword_spaces=1",   # uniform block (default: clean scans)
+    "--oem 3 --psm 11 -c preserve_interword_spaces=1",  # sparse text, no fixed layout (very blurry / low-res)
+]
+# Kept to 2 candidates on purpose: each extra config roughly doubles the
+# per-image OCR time, which matters on a free-tier web request. If you have
+# CPU/time budget to spare, add "--oem 3 --psm 4 -c preserve_interword_spaces=1"
+# (single variable-sized column -- helps on skewed/rotated table photos) back
+# to this list; evaluate_ocr.py measures the trade-off directly.
+
+
+def _score_ocr_text(text: str) -> int:
+    """How usable is this OCR text? Counts rows that plausibly parsed into
+    a real lab parameter -- a far better signal for a blurry photo than raw
+    Tesseract confidence, which stays low even on a perfectly legible scan."""
+    if not text.strip():
+        return 0
+    try:
+        return len(parse_parameters_from_text(text))
+    except Exception:  # noqa: BLE001
+        return 0
+
+
 def extract_text_from_image(file_bytes: bytes) -> Tuple[str, float]:
     try:
         from PIL import Image
         import pytesseract
         img = _prep_for_ocr(Image.open(io.BytesIO(file_bytes)))
-        text = pytesseract.image_to_string(img, config=OCR_CONFIG)
-        data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-        conf = _mean_ocr_confidence(data)
-        return text, conf
+        best_text, best_conf, best_score = "", 0.0, -1
+        for config in _OCR_PSM_CANDIDATES:
+            try:
+                text = pytesseract.image_to_string(img, config=config)
+                score = _score_ocr_text(text)
+            except Exception:  # noqa: BLE001
+                continue
+            if score > best_score:
+                data = pytesseract.image_to_data(img, config=config, output_type=pytesseract.Output.DICT)
+                best_text, best_conf, best_score = text, _mean_ocr_confidence(data), score
+        return best_text, best_conf
     except Exception as e:  # noqa: BLE001
         logger.warning("Image OCR failed: %s", e)
         return "", 0.0
@@ -152,7 +186,7 @@ FLAG_TOKENS = {"h", "l", "hh", "ll", "high", "low", "normal", "abnormal", "*", "
                "\u2191", "\u2193", "(h)", "(l)", "critical", "borderline", "optimal", "desirable"}
 NOT_UNIT_PREFIXES = ("ref", "normal", "range", "method", "bio", "interval", "level", "desirable",
                      "optimal", "borderline", "high", "low", "near", "male", "female", "adult",
-                     "children", "child", "men", "women", "m:", "f:")
+                     "children", "child", "men", "women", "m:", "f:", "up", "to", "non", "reactive")
 
 
 def _to_float(s: str) -> float:
@@ -267,9 +301,12 @@ def parse_parameters_from_text(text: str) -> List[dict]:
 
         # ---- unit + flag ----
         unit, flag = "", glued_flag
-        for tok in rest.split():
-            t = tok.strip("(),;:")
+        toks = rest.split()
+        i = 0
+        while i < len(toks):
+            t = toks[i].strip("(),;:")
             tl = t.lower()
+            i += 1
             if not t:
                 continue
             if tl in FLAG_TOKENS:
@@ -280,6 +317,12 @@ def parse_parameters_from_text(text: str) -> List[dict]:
             if tl.startswith(NOT_UNIT_PREFIXES) or not UNIT_RE.match(t):
                 if RANGE_RE.match(t) or t[:1] in "<>":
                     unit = unit or ""  # range started before any unit: no unit printed
+                continue
+            # a bare magnitude word ('micro', 'milli') glued to its unit on
+            # the NEXT token by a space in the source PDF ('micro g/dL')
+            if tl in ("micro", "milli", "nano") and i < len(toks) and UNIT_RE.match(toks[i]):
+                unit = t + toks[i]
+                i += 1
                 continue
             unit = t
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getStatus, listSamples, analyzeFile, analyzeSample } from "./api";
+import { getStatus, listSamples, analyzeFile, analyzeSample, analyzeBatch } from "./api";
 import { BrandMark, EkgTrace, IconUpload, IconReport } from "./icons.jsx";
 import UploadPanel from "./components/UploadPanel.jsx";
 import VitalsDial from "./components/VitalsDial.jsx";
@@ -13,50 +13,60 @@ import MLRiskPanel from "./components/MLRiskPanel.jsx";
 export default function App() {
   const [status, setStatus] = useState(null);
   const [samples, setSamples] = useState([]);
-  const [report, setReport] = useState(null);
+  const [reports, setReports] = useState([]);          // [{filename, report}], batch mode
+  const [activeIdx, setActiveIdx] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [view, setView] = useState("upload");
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => () => {
-    if (selectedFile?.previewUrl) URL.revokeObjectURL(selectedFile.previewUrl);
-  }, [selectedFile?.previewUrl]);
+  const report = reports[activeIdx]?.report || null;
 
   useEffect(() => {
     getStatus().then(setStatus).catch(() => setStatus(null));
     listSamples().then(setSamples).catch(() => setSamples([]));
   }, []);
 
-  const runAnalysis = async (promise) => {
+  const runAnalysis = async (promise, filename = "Report") => {
     setLoading(true);
     setError(null);
     try {
       const data = await promise;
       if (data.success) {
-        setReport(data.report);
+        setReports([{ filename, report: data.report }]);
+        setActiveIdx(0);
         setView("report");
       } else {
-        setError(data.detail || (data.errors && data.errors.join(" ")) || "Analysis failed.");
+        setError((data.errors && data.errors.join(" ")) || "Analysis failed.");
       }
     } catch (e) {
-      setError("Could not reach the backend. Is the FastAPI server running?");
+      setError(e.message || "Could not reach the backend. Is the FastAPI server running?");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFile = (file, patientInfo) => {
-    setSelectedFile({
-      name: file.name,
-      previewUrl: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
-    });
-    runAnalysis(analyzeFile(file, patientInfo));
-  };
-
-  const handleSample = (name, patientInfo) => {
-    setSelectedFile(null);
-    runAnalysis(analyzeSample(name, patientInfo));
+  const runBatchAnalysis = async (files, patientInfo) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await analyzeBatch(files, patientInfo);
+      const ok = data.results.filter((r) => r.success);
+      if (ok.length === 0) {
+        setError(data.results.map((r) => `${r.filename}: ${r.errors.join(" ")}`).join(" | "));
+      } else {
+        setReports(ok.map((r) => ({ filename: r.filename, report: r.report })));
+        setActiveIdx(0);
+        setView("report");
+        const failed = data.results.filter((r) => !r.success);
+        if (failed.length) {
+          setError(`${failed.length} of ${data.results.length} file(s) could not be analyzed: `
+            + failed.map((r) => `${r.filename} (${r.errors.join(" ")})`).join(", "));
+        }
+      }
+    } catch (e) {
+      setError(e.message || "Could not reach the backend. Is the FastAPI server running?");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const Brand = ({ small }) => (
@@ -128,11 +138,11 @@ export default function App() {
               health summary with personalized recommendations.
             </p>
             <UploadPanel
-              onFile={handleFile}
+              onFile={(file, patientInfo) => runAnalysis(analyzeFile(file, patientInfo), file.name)}
+              onFiles={(files, patientInfo) => runBatchAnalysis(files, patientInfo)}
               samples={samples}
-              onSample={handleSample}
+              onSample={(name, patientInfo) => runAnalysis(analyzeSample(name, patientInfo), name)}
               loading={loading}
-              selectedFile={selectedFile}
             />
             {loading && (
               <div className="loading-state">
@@ -152,10 +162,17 @@ export default function App() {
         {view === "report" && report && (
           <>
             <h1 className="page-title">Health summary</h1>
-            {selectedFile && (
-              <div className="analyzed-file">
-                {selectedFile.previewUrl ? <img src={selectedFile.previewUrl} alt="Uploaded report" /> : <span>REPORT</span>}
-                <span>Analyzed report: {selectedFile.name}</span>
+            {reports.length > 1 && (
+              <div className="report-switcher">
+                {reports.map((r, i) => (
+                  <button
+                    key={i}
+                    className={`report-switch-chip ${i === activeIdx ? "active" : ""}`}
+                    onClick={() => setActiveIdx(i)}
+                  >
+                    {r.filename}
+                  </button>
+                ))}
               </div>
             )}
             <AlertBanner report={report} />

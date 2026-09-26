@@ -91,7 +91,7 @@ REFERENCE_RANGES: Dict[str, Dict] = {
                           "display": "Total Cholesterol"},
     "ldl cholesterol": {"unit": "mg/dL", "low": 0, "high": 100, "source": "AHA",
                         "aliases": ["lol cholesterol", "ldl", "ldl c", "ldl cholesterol direct", "cholesterol ldl",
-    "low density lipoprotein", "direct ldl", "ldl direct"], "display": "LDL Cholesterol"},
+                                    "low density lipoprotein"], "display": "LDL Cholesterol"},
     "hdl cholesterol": {"unit": "mg/dL", "low": 40, "high": 60, "source": "AHA",
                         "aliases": ["hdl", "hdl c", "cholesterol hdl", "high density lipoprotein"],
                         "display": "HDL Cholesterol"},
@@ -177,6 +177,39 @@ REFERENCE_RANGES: Dict[str, Dict] = {
                   "aliases": ["k", "serum potassium", "potassium k"], "display": "Potassium"},
     "chloride": {"unit": "mEq/L", "low": 98, "high": 107, "source": "Mayo Clinic",
                  "aliases": ["cl", "serum chloride", "chloride cl"], "display": "Chloride"},
+
+    # ---- Added from a real Sterling Accuris pathology report (Sep 2026 review) ----
+    "mpv": {"unit": "fL", "low": 7.5, "high": 10.3, "source": "Mayo Clinic",
+            "aliases": ["mean platelet volume"], "display": "MPV"},
+    "globulin": {"unit": "g/dL", "low": 2.3, "high": 3.5, "source": "Mayo Clinic",
+                 "aliases": ["serum globulin"], "display": "Globulin"},
+    "a g ratio": {"unit": "", "low": 1.3, "high": 1.7, "source": "Mayo Clinic",
+                  "aliases": ["albumin globulin ratio", "ag ratio"], "display": "A/G Ratio"},
+    "chol hdl ratio": {"unit": "", "low": 0, "high": 5.0, "source": "AHA",
+                       "aliases": ["cholesterol hdl ratio", "total cholesterol hdl ratio",
+                                   "tc hdl ratio"], "display": "Cholesterol/HDL Ratio"},
+    "ldl hdl ratio": {"unit": "", "low": 0, "high": 3.5, "source": "AHA",
+                      "aliases": [], "display": "LDL/HDL Ratio"},
+    "indirect bilirubin": {"unit": "mg/dL", "low": 0.2, "high": 0.8, "source": "Mayo Clinic",
+                           "aliases": ["unconjugated bilirubin", "bilirubin indirect"],
+                           "display": "Indirect (Unconjugated) Bilirubin"},
+    "delta bilirubin": {"unit": "mg/dL", "low": 0.0, "high": 0.2, "source": "Lab reference",
+                        "aliases": [], "display": "Delta Bilirubin"},
+    "tibc": {"unit": "ug/dL", "low": 261, "high": 462, "source": "Mayo Clinic",
+             "aliases": ["total iron binding capacity"], "display": "TIBC"},
+    "transferrin saturation": {"unit": "%", "low": 20, "high": 50, "source": "Mayo Clinic",
+                               "aliases": ["transferrin sat", "tsat"], "display": "Transferrin Saturation"},
+    "homocysteine": {"unit": "micromol/L", "low": 5.0, "high": 15.0, "source": "Mayo Clinic",
+                     "aliases": ["homocysteine serum", "serum homocysteine", "total homocysteine"],
+                     "display": "Homocysteine"},
+    "microalbumin": {"unit": "mg/L", "low": 0, "high": 16.7, "source": "NIH (urine, per volume)",
+                     "aliases": ["microalbumin per urine volume", "urine microalbumin"],
+                     "display": "Microalbumin (urine)"},
+    "psa": {"unit": "ng/mL", "low": 0, "high": 4.0, "source": "American Cancer Society",
+            "aliases": ["prostate specific antigen", "psa total", "psa prostate specific antigen total"],
+            "display": "PSA"},
+    "ige": {"unit": "IU/mL", "low": 0, "high": 87, "source": "Lab reference (highly assay-dependent)",
+            "aliases": ["immunoglobulin e", "total ige"], "display": "IgE"},
 }
 
 # ---------------------------------------------------------------------------
@@ -205,10 +238,14 @@ _QUALIFIERS = {"serum", "plasma", "blood", "level", "levels", "test", "estimatio
 _METHOD_PHRASES = sorted([
     "flow cytometry", "electrical impedance", "impedance", "photometry", "spectrophotometry",
     "photometric", "cyanmethemoglobin", "chod pod", "cod pod", "gpo pod", "god pod", "calculated",
-    "calculation", "computed", "direct", "enzymatic", "colorimetric", "hplc", "clia", "cmia", "eclia",
-    "elisa", "jaffe", "jaffe kinetic", "kinetic", "hexokinase", "ise", "turbidimetry", "nephelometry",
-    "immunoturbidimetry", "ifcc", "arsenazo", "bcg", "biuret", "diazo", "urease", "chemiluminescence",
-    "automated", "microscopy", "microscopic", "vanadate", "uv", "pod", "ecl", "immunoassay",
+    "calculation", "computed", "direct", "direct measured", "enzymatic", "colorimetric", "hplc",
+    "clia", "cmia", "eclia", "elisa", "jaffe", "jaffe kinetic", "kinetic", "hexokinase", "ise",
+    "turbidimetry", "nephelometry", "immunoturbidimetry", "ifcc", "arsenazo", "arsenazo iii", "bcg",
+    "biuret", "diazo", "urease", "chemiluminescence", "automated", "microscopy", "microscopic",
+    "derived", "capillary photometry", "pyridyl azo dye", "azobilirubin chromophores",
+    "cationic mordant binding", "copper tartrate to colour complex", "bromocresol green method",
+    "uv with p5p ifcc", "uv with p5p", "uricase", "creatinine amidohydrolase", "immunoassay",
+    "vanadate", "uv", "pod", "ecl",
 ], key=len, reverse=True)
 
 
@@ -337,6 +374,7 @@ def normalize_unit(u: Optional[str]) -> str:
     s = re.sub(r"/d[t1i|]$", "/dl", s)                       # OCR: mg/dt, mg/d1
     s = re.sub(r"/m[1i|]$", "/ml", s)                        # OCR: ng/m1
     s = re.sub(r"(?:mm\^?3|cmm)$", "cumm", s)
+    s = s.replace("microg/dl", "ug/dl").replace("micromg/dl", "ug/dl")
     s = s.replace("thou/", "10^3/").replace("thousand/", "10^3/").replace("k/", "10^3/")
     s = s.replace("million/", "10^6/").replace("mill/", "10^6/").replace("mil/", "10^6/")
     s = s.replace("lakhs", "lakh")

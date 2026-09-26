@@ -1,0 +1,247 @@
+{
+ "sterling_accuris_report.txt": {
+  "layout": 20,
+  "params": {
+   "hemoglobin": {
+    "value": 14.5,
+    "status": "normal"
+   },
+   "rbc count": {
+    "value": 4.79,
+    "status": "normal"
+   },
+   "hematocrit": {
+    "value": 43.3,
+    "status": "normal"
+   },
+   "mcv": {
+    "value": 90.3,
+    "status": "normal"
+   },
+   "mch": {
+    "value": 30.2,
+    "status": "normal"
+   },
+   "mchc": {
+    "value": 33.4,
+    "status": "normal"
+   },
+   "rdw": {
+    "value": 13.6,
+    "status": "normal"
+   },
+   "wbc count": {
+    "value": 10.57,
+    "status": "high"
+   },
+   "neutrophils": {
+    "value": 73.0,
+    "status": "normal"
+   },
+   "lymphocytes": {
+    "value": 19.0,
+    "status": "low"
+   },
+   "eosinophils": {
+    "value": 2.0,
+    "status": "normal"
+   },
+   "monocytes": {
+    "value": 6.0,
+    "status": "normal"
+   },
+   "basophils": {
+    "value": 0.0,
+    "status": "normal"
+   },
+   "platelet count": {
+    "value": 150.0,
+    "status": "normal"
+   },
+   "mpv": {
+    "value": 14.0,
+    "status": "high"
+   },
+   "esr": {
+    "value": 7.0,
+    "status": "normal"
+   },
+   "total cholesterol": {
+    "value": 189.0,
+    "status": "normal"
+   },
+   "triglycerides": {
+    "value": 168.0,
+    "status": "high"
+   },
+   "hdl cholesterol": {
+    "value": 60.0,
+    "status": "high"
+   },
+   "direct ldl": {
+    "value": 100.39,
+    "status": "high"
+   },
+   "vldl cholesterol": {
+    "value": 33.6,
+    "status": "normal"
+   },
+   "cholesterol/hdl ratio": {
+    "value": 3.1,
+    "status": "normal"
+   },
+   "ldl/hdl ratio": {
+    "value": 1.7,
+    "status": "normal"
+   },
+   "fasting blood glucose": {
+    "value": 141.0,
+    "status": "high"
+   },
+   "hba1c": {
+    "value": 7.1,
+    "status": "high"
+   },
+   "t3 - triiodothyronine": {
+    "value": 1.01,
+    "status": "normal"
+   },
+   "t4 - thyroxine": {
+    "value": 7.84,
+    "status": "normal"
+   },
+   "tsh - thyroid stimulating hormone": {
+    "value": 0.8199,
+    "status": "normal"
+   },
+   "microalbumin (urine)": {
+    "value": 10.5,
+    "status": "normal"
+   },
+   "total protein": {
+    "value": 7.0,
+    "status": "normal"
+   },
+   "albumin": {
+    "value": 4.2,
+    "status": "normal"
+   },
+   "globulin": {
+    "value": 2.8,
+    "status": "normal"
+   },
+   "a/g ratio": {
+    "value": 1.5,
+    "status": "normal"
+   },
+   "total bilirubin": {
+    "value": 0.7,
+    "status": "normal"
+   },
+   "direct bilirubin": {
+    "value": 0.3,
+    "status": "normal"
+   },
+   "indirect (unconjugated) bilirubin": {
+    "value": 0.2,
+    "status": "normal"
+   },
+   "delta bilirubin": {
+    "value": 0.2,
+    "status": "normal"
+   },
+   "serum iron": {
+    "value": 103.0,
+    "status": "normal"
+   },
+   "tibc": {
+    "value": 352.0,
+    "status": "normal"
+   },
+   "transferrin saturation": {
+    "value": 29.26,
+    "status": "normal"
+   },
+   "homocysteine": {
+    "value": 23.86,
+    "status": "high"
+   },
+   "serum creatinine": {
+    "value": 0.83,
+    "status": "normal"
+   },
+   "urea": {
+    "value": 18.0,
+    "status": "low"
+   },
+   "blood urea nitrogen": {
+    "value": 8.41,
+    "status": "low"
+   },
+   "uric acid": {
+    "value": 4.9,
+    "status": "normal"
+   },
+   "calcium": {
+    "value": 9.1,
+    "status": "normal"
+   },
+   "sgpt (alt)": {
+    "value": 48.0,
+    "status": "normal"
+   },
+   "sgot (ast)": {
+    "value": 27.0,
+    "status": "normal"
+   },
+   "sodium": {
+    "value": 143.0,
+    "status": "normal"
+   },
+   "potassium": {
+    "value": 4.9,
+    "status": "normal"
+   },
+   "chloride": {
+    "value": 105.0,
+    "status": "normal"
+   },
+   "vitamin d": {
+    "value": 8.98,
+    "status": "normal"
+   },
+   "vitamin b12": {
+    "value": 148.0,
+    "status": "low"
+   },
+   "psa": {
+    "value": 0.573,
+    "status": "normal"
+   },
+   "ige": {
+    "value": 492.3,
+    "status": "high"
+   },
+   "hiv i & ii ab/ag with p24 ag": {
+    "value": 0.07,
+    "status": "normal"
+   },
+   "hbsag": {
+    "value": 0.29,
+    "status": "normal"
+   },
+   "hb a": {
+    "value": 84.4,
+    "status": "low"
+   },
+   "hb a2": {
+    "value": 2.8,
+    "status": "normal"
+   },
+   "foetal hb": {
+    "value": 0.3,
+    "status": "normal"
+   }
+  }
+ }
+}
