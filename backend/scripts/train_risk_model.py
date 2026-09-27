@@ -42,7 +42,7 @@ def train(input_path: Path, target: str, output_path: Path, iterations: int):
     x_test_scaled = scaler.transform(x_test)
 
     search = RandomizedSearchCV(
-        LGBMClassifier(objective="binary", random_state=42, verbosity=-1),
+        LGBMClassifier(objective="binary", random_state=42, verbosity=-1, n_jobs=1),
         param_distributions={
             "n_estimators": [100, 200, 300], "num_leaves": [15, 31, 63],
             "learning_rate": [0.01, 0.03, 0.05, 0.1], "max_depth": [-1, 4, 6, 8],
